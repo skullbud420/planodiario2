@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diário de Cultivo Avançado</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,16 +11,14 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            background: linear-gradient(135deg, #0c172e, #1a3a6a, #0c172e);
+            background: linear-gradient(135deg, #0f1b3a, #1c3b6a, #0f1b3a);
             color: #e0e0e0;
             line-height: 1.6;
             padding: 15px;
             min-height: 100vh;
-            touch-action: manipulation;
         }
         
         .container {
@@ -31,9 +29,9 @@
         header {
             text-align: center;
             padding: 20px 15px;
-            background: rgba(20, 25, 40, 0.97);
+            background: rgba(30, 30, 40, 0.97);
             border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
@@ -46,22 +44,14 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, #27ae60, #8e44ad, #e74c3c, #f39c12);
-        }
-        
-        h1, h2 {
-            color: #fff;
-            margin-bottom: 12px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            background: linear-gradient(90deg, #27ae60, #9b59b6, #e74c3c, #f39c12);
         }
         
         h1 {
-            font-size: 1.8rem;
-        }
-        
-        h2 {
-            font-size: 1.4rem;
-            margin-top: 20px;
+            color: #fff;
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         
         .btn {
@@ -71,62 +61,49 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            flex: 1;
         }
         
         .btn-primary {
             background: #27ae60;
             color: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            border: 1px solid rgba(255,255,255,0.2);
         }
         
-        .btn:hover, .btn:active {
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        
-        .btn i {
-            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: #c0d0ff;
+            color: white;
             font-weight: 500;
-            font-size: 0.95rem;
         }
         
         .form-group input, 
         .form-group select, 
         .form-group textarea {
             width: 100%;
-            padding: 12px 15px;
-            background: rgba(30, 35, 50, 0.8);
-            border: 1px solid rgba(100, 120, 180, 0.3);
-            border-radius: 10px;
+            padding: 12px;
+            background: rgba(40, 40, 50, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
             color: white;
             font-size: 1rem;
-            -webkit-appearance: none;
         }
         
         .form-group textarea {
             min-height: 100px;
-            resize: vertical;
         }
         
         .form-group input:focus, 
@@ -139,25 +116,23 @@
         
         .form-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-top: 25px;
         }
         
         .plant-btn {
-            padding: 15px;
+            padding: 12px 20px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.4s ease;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             width: 100%;
             justify-content: center;
-            font-size: 0.95rem;
-            text-align: center;
         }
         
         .plant-btn.auto {
@@ -173,97 +148,83 @@
         .plant-btn.active {
             transform: scale(1.03);
             box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-            border: 2px solid rgba(255,255,255,0.5);
+            border: 2px solid white;
         }
         
         .plant-list-item {
-            background: rgba(30, 35, 50, 0.8);
+            background: rgba(40, 40, 50, 0.8);
             padding: 15px;
-            border-radius: 12px;
+            border-radius: 10px;
             margin-bottom: 15px;
-            border: 1px solid rgba(100, 120, 180, 0.3);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .plant-list-item h3 {
             color: white;
             margin-bottom: 10px;
-            font-size: 1.2rem;
         }
         
         .plant-list-item p {
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-            color: #d0d0ff;
+            margin-bottom: 10px;
         }
         
         .plant-actions {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
         
         .history-entry {
-            background: rgba(30, 35, 50, 0.8);
+            background: rgba(40, 40, 50, 0.8);
             padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
             border-left: 4px solid #3498db;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .history-date {
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #3498db;
-            font-size: 1.1rem;
         }
         
         .history-values {
             display: flex;
-            gap: 12px;
+            gap: 15px;
             flex-wrap: wrap;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         
         .history-value {
             background: rgba(52, 152, 219, 0.2);
-            padding: 10px 15px;
-            border-radius: 8px;
-            flex-grow: 1;
+            padding: 8px 12px;
+            border-radius: 6px;
             min-width: 120px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .history-value span {
             display: block;
-            font-size: 0.85rem;
-            color: #b0c0ff;
-            margin-bottom: 3px;
+            font-size: 0.9rem;
+            color: #b0b0b0;
         }
         
         .history-value strong {
-            font-size: 1.05rem;
-            color: white;
+            font-size: 1.1rem;
         }
         
         .section-nav {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             justify-content: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
         
         .image-preview {
             max-width: 100%;
-            max-height: 250px;
-            margin-top: 15px;
-            border-radius: 10px;
+            max-height: 200px;
+            margin-top: 10px;
+            border-radius: 8px;
             display: none;
-            object-fit: contain;
-            border: 1px solid rgba(100, 120, 180, 0.3);
-            background: rgba(0,0,0,0.2);
         }
         
         .modal {
@@ -273,7 +234,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.97);
+            background: rgba(0,0,0,0.95);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -292,68 +253,54 @@
             max-width: 100%;
             max-height: 90vh;
             object-fit: contain;
-            border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
         
         .close-modal {
             position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             background: #e74c3c;
             color: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             font-weight: bold;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             cursor: pointer;
             z-index: 1001;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         
         .status-bar {
-            padding: 15px;
-            background: rgba(30, 35, 50, 0.95);
-            border-radius: 10px;
-            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(40, 40, 50, 0.8);
+            border-radius: 8px;
+            margin-bottom: 15px;
             text-align: center;
             display: none;
-            font-size: 0.95rem;
-            border-left: 4px solid #27ae60;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .status-bar.success {
+            background: rgba(39, 174, 96, 0.3);
             border-left: 4px solid #27ae60;
         }
         
         .status-bar.error {
+            background: rgba(231, 76, 60, 0.3);
             border-left: 4px solid #e74c3c;
         }
         
         .permission-request {
-            background: rgba(30, 35, 50, 0.95);
-            padding: 25px 20px;
-            border-radius: 12px;
+            background: rgba(52, 152, 219, 0.3);
+            padding: 20px;
+            border-radius: 10px;
             text-align: center;
             margin-bottom: 20px;
             border-left: 4px solid #3498db;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
         .permission-request h3 {
             margin-bottom: 15px;
-            font-size: 1.3rem;
-            color: #3498db;
-        }
-        
-        .permission-request p {
-            margin-bottom: 20px;
-            font-size: 1rem;
-            color: #d0d0ff;
-            line-height: 1.5;
         }
         
         .history-image {
@@ -361,16 +308,15 @@
             max-width: 300px;
             height: 200px;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 8px;
             margin-top: 10px;
             cursor: pointer;
             transition: transform 0.3s ease;
-            border: 2px solid rgba(100, 120, 180, 0.3);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.1);
         }
         
         .history-image:hover {
-            transform: scale(1.03);
+            transform: scale(1.02);
             border-color: #3498db;
         }
         
@@ -379,118 +325,43 @@
         }
         
         .history-image-label {
-            font-size: 0.95rem;
-            color: #b0c0ff;
-            margin-bottom: 8px;
-            font-weight: 500;
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            margin-bottom: 5px;
         }
         
         .no-image {
             font-style: italic;
             color: #777;
             margin-top: 10px;
-            font-size: 0.9rem;
         }
         
-        .unsupported {
-            background: rgba(30, 35, 50, 0.95);
-            padding: 25px 20px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 20px;
-            border-left: 4px solid #e74c3c;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: none;
-        }
-        
-        .unsupported h3 {
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-            color: #e74c3c;
-        }
-        
-        .unsupported p {
-            margin-bottom: 20px;
-            font-size: 1rem;
-            color: #d0d0ff;
-            line-height: 1.5;
-        }
-        
-        /* Mobile specific styles */
+        /* Mobile-specific optimizations */
         @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            header {
-                padding: 15px 10px;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-            }
-            
-            h2 {
-                font-size: 1.3rem;
-            }
-            
-            .btn {
-                padding: 12px 15px;
-                font-size: 0.95rem;
-            }
-            
-            .form-group input, 
-            .form-group select, 
-            .form-group textarea {
-                padding: 12px;
-            }
-            
-            .form-actions {
+            .form-actions, .plant-actions {
                 flex-direction: column;
             }
             
+            .btn, .plant-btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            
             .section-nav {
-                gap: 6px;
-            }
-            
-            .section-nav .btn {
-                font-size: 0.9rem;
-                padding: 10px 12px;
-                flex: 1;
-                min-width: calc(50% - 6px);
-            }
-            
-            .plant-actions {
                 flex-direction: column;
             }
             
             .history-values {
                 flex-direction: column;
-                gap: 10px;
             }
             
             .history-value {
-                min-width: 100%;
+                width: 100%;
             }
             
-            .permission-request, .unsupported {
-                padding: 20px 15px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .section-nav .btn {
-                min-width: 100%;
-                margin-bottom: 5px;
-            }
-            
-            .plant-btn {
-                padding: 12px;
-                font-size: 0.9rem;
+            .modal-content {
+                max-width: 100%;
+                max-height: 100%;
             }
         }
     </style>
@@ -498,73 +369,62 @@
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-seedling"></i> Diário de Cultivo</h1>
+            <h1><i class="fas fa-book"></i> Diário de Cultivo</h1>
             <p>Registre e acompanhe o desenvolvimento das suas plantas</p>
         </header>
         
-        <div id="unsupportedBrowser" class="unsupported">
-            <h3><i class="fas fa-exclamation-triangle"></i> Navegador não suportado</h3>
-            <p>Seu navegador não suporta a API de Sistema de Arquivos necessária para este aplicativo. Por favor, utilize um navegador moderno como Chrome ou Edge.</p>
-        </div>
-        
-        <div id="permissionRequest" class="permission-request">
-            <h3><i class="fas fa-key"></i> Permissão Necessária</h3>
-            <p>Para salvar seus dados localmente, precisamos de permissão para acessar o sistema de arquivos. Suas informações ficarão salvas apenas no seu dispositivo.</p>
+        <div id="permissionRequest" class="permission-request" style="display: none;">
+            <h3>Permissão Necessária</h3>
+            <p>Para salvar seus dados localmente, precisamos de permissão para acessar o sistema de arquivos.</p>
             <button class="btn btn-primary" id="requestPermissionBtn">
-                <i class="fas fa-check"></i> Conceder Permissão
+                <i class="fas fa-key"></i> Conceder Permissão
             </button>
-            <p class="small" style="margin-top: 20px; font-size: 0.9rem; color: #a0b0ff;">
-                <i class="fas fa-info-circle"></i> Esta permissão será lembrada mesmo após fechar o navegador
+            <p class="small" style="margin-top: 15px; font-size: 0.9rem; color: #b0b0b0;">
+                Suas informações ficarão salvas apenas no seu dispositivo
             </p>
         </div>
         
         <div id="appContent" style="display: none;">
             <div class="section-nav">
-                <button class="btn btn-secondary" onclick="showSection('register')">
-                    <i class="fas fa-pencil-alt"></i> Registrar
-                </button>
-                <button class="btn btn-secondary" onclick="showSection('history')">
-                    <i class="fas fa-history"></i> Histórico
-                </button>
-                <button class="btn btn-secondary" onclick="showSection('manage')">
-                    <i class="fas fa-leaf"></i> Plantas
-                </button>
+                <button class="btn btn-secondary" onclick="showSection('register')">Registrar Dados</button>
+                <button class="btn btn-secondary" onclick="showSection('history')">Histórico</button>
+                <button class="btn btn-secondary" onclick="showSection('manage')">Gerenciar Plantas</button>
             </div>
             
-            <div id="statusBar" class="status-bar success"></div>
+            <div id="statusBar" class="status-bar success" style="display: none;">Permissão recuperada com sucesso!</div>
             
             <div id="sections">
                 <div id="register">
                     <div class="form-group">
-                        <label><i class="fas fa-seedling"></i> Selecione a planta</label>
+                        <label>Selecione a planta</label>
                         <select id="selectPlanta" required>
                             <option value="">🌱 Selecione uma planta</option>
                         </select>
                     </div>
                     <form id="cultivoForm">
                         <div class="form-group">
-                            <label><i class="fas fa-calendar"></i> Data</label>
+                            <label>Data</label>
                             <input type="date" id="dataCultivo" required>
                         </div>
 
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 10px;">
                             <div class="form-group" style="flex:1;">
-                                <label><i class="fas fa-tint"></i> pH</label>
-                                <input type="number" id="phCultivo" placeholder="Ex: 6.2" step="0.1" min="0" max="14">
+                                <label>pH</label>
+                                <input type="number" id="phCultivo" placeholder="Ex: 6.2" step="0.1">
                             </div>
                             <div class="form-group" style="flex:1;">
-                                <label><i class="fas fa-bolt"></i> EC (mS/cm)</label>
-                                <input type="number" id="ecCultivo" placeholder="Ex: 1.8" step="0.1" min="0">
+                                <label>EC (mS/cm)</label>
+                                <input type="number" id="ecCultivo" placeholder="Ex: 1.8" step="0.1">
                             </div>
                         </div>
 
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 10px;">
                             <div class="form-group" style="flex:1;">
-                                <label><i class="fas fa-thermometer-half"></i> Temperatura (°C)</label>
-                                <input type="number" id="tempCultivo" placeholder="Ex: 24.5" step="0.1" min="0" max="50">
+                                <label>Temperatura (°C)</label>
+                                <input type="number" id="tempCultivo" placeholder="Ex: 24.5" step="0.1">
                             </div>
                             <div class="form-group" style="flex:1;">
-                                <label><i class="fas fa-shower"></i> Rega</label>
+                                <label>Rega</label>
                                 <select id="regaCultivo">
                                     <option>Normal</option>
                                     <option>Flush</option>
@@ -574,23 +434,19 @@
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-camera"></i> Imagem (opcional)</label>
-                            <input type="file" id="imagemCultivo" accept="image/*" onchange="previewImage(event)">
-                            <img id="imagePreview" class="image-preview" alt="Pré-visualização">
+                            <label>Imagem (opcional)</label>
+                            <input type="file" id="imagemCultivo" accept="image/*" capture="environment" onchange="previewImage(event)">
+                            <img id="imagePreview" class="image-preview" src="" alt="Pré-visualização">
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-sticky-note"></i> Observações</label>
+                            <label>Observações</label>
                             <textarea id="obsCultivo" placeholder="Anotações sobre o cultivo..."></textarea>
                         </div>
 
                         <div class="form-actions">
-                            <button type="reset" class="btn btn-secondary">
-                                <i class="fas fa-trash-alt"></i> Limpar
-                            </button>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Salvar Registro
-                            </button>
+                            <button type="reset" class="btn btn-secondary">Limpar</button>
+                            <button type="submit" class="btn btn-primary">Salvar Registro</button>
                         </div>
                     </form>
                 </div>
@@ -601,24 +457,24 @@
                 
                 <div id="manage" style="display:none">
                     <div id="plantList" style="margin-bottom: 20px;">
-                        <h2><i class="fas fa-leaf"></i> Suas Plantas</h2>
-                        <div id="plantListContent" style="display:flex; flex-direction:column; gap:15px;"></div>
+                        <h2>Suas Plantas</h2>
+                        <div id="plantListContent" style="display:flex; flex-direction:column; gap:12px;"></div>
                     </div>
                     <form id="plantForm">
-                        <h2><i class="fas fa-plus-circle"></i> Adicionar Nova Planta</h2>
+                        <h2>Adicionar Nova Planta</h2>
                         <div class="form-group">
-                            <label><i class="fas fa-signature"></i> Nome da Planta</label>
-                            <input type="text" id="plantName" placeholder="Nome da Planta" required>
+                            <label>Nome da Planta</label>
+                            <input type="text" id="plantName" placeholder="Nome da Planta">
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-calendar-day"></i> Data da Germinação</label>
-                            <input type="date" id="germinationDate" required>
+                            <label>Data da Germinação</label>
+                            <input type="date" id="germinationDate">
                         </div>
 
                         <div class="form-group">
-                            <label><i class="fas fa-tag"></i> Tipo de Planta</label>
-                            <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                            <label>Tipo de Planta</label>
+                            <div style="display:flex; gap:10px;">
                                 <div class="plant-btn auto" id="typeAuto" onclick="setPlantTypeUI('auto')" style="flex:1; justify-content:center;">
                                     <i class="fas fa-bolt"></i>
                                     <span>Automática</span>
@@ -631,12 +487,8 @@
                         </div>
 
                         <div class="form-actions">
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-save"></i> Salvar Planta
-                            </button>
-                            <button class="btn btn-secondary" type="reset">
-                                <i class="fas fa-times"></i> Cancelar
-                            </button>
+                            <button class="btn btn-primary" type="submit">Salvar Planta</button>
+                            <button class="btn btn-secondary" type="reset">Cancelar</button>
                         </div>
                     </form>
                 </div>
@@ -647,8 +499,8 @@
     <!-- Modal para exibir imagens em tela cheia -->
     <div id="imageModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeImageModal()">×</button>
-            <img id="modalImage">
+            <button class="close-modal" onclick="closeImageModal()">X</button>
+            <img id="modalImage" src="">
         </div>
     </div>
 
@@ -659,16 +511,7 @@
         let diarioDirHandle = null;
         let editingIndex = null;
         let historyImageUrls = [];
-        
-        // Verificar suporte do navegador
-        function checkBrowserSupport() {
-            if (!('showDirectoryPicker' in window) || !('indexedDB' in window)) {
-                document.getElementById('unsupportedBrowser').style.display = 'block';
-                document.getElementById('permissionRequest').style.display = 'none';
-                return false;
-            }
-            return true;
-        }
+        let permissionRequested = false;
         
         // Exibir status
         function showStatus(message, isSuccess = true) {
@@ -703,7 +546,9 @@
         function closeImageModal() {
             document.getElementById('imageModal').style.display = 'none';
             // Revogar URL para liberar memória
-            URL.revokeObjectURL(document.getElementById('modalImage').src);
+            if (document.getElementById('modalImage').src) {
+                URL.revokeObjectURL(document.getElementById('modalImage').src);
+            }
             document.getElementById('modalImage').src = '';
         }
 
@@ -711,12 +556,15 @@
         // Função para abrir o banco de dados
         function openDB() {
             return new Promise((resolve, reject) => {
-                const request = indexedDB.open('PlantJournalDB', 1);
+                const request = indexedDB.open('PlantJournalDB', 2);
                 
                 request.onupgradeneeded = function(event) {
                     const db = event.target.result;
                     if (!db.objectStoreNames.contains('handles')) {
                         db.createObjectStore('handles');
+                    }
+                    if (!db.objectStoreNames.contains('permissionState')) {
+                        db.createObjectStore('permissionState');
                     }
                 };
                 
@@ -764,46 +612,54 @@
             }
         }
 
-        // Verificar permissão
-        async function verifyPermission(handle) {
-            if (await handle.queryPermission({ mode: 'readwrite' }) === 'granted') {
-                return true;
-            }
-            if (await handle.requestPermission({ mode: 'readwrite' }) === 'granted') {
-                return true;
-            }
-            return false;
-        }
-
         // Função de inicialização para recuperar o handle
         async function init() {
-            if (!checkBrowserSupport()) return;
-            
+            // Verificar suporte do navegador
+            if (!('showDirectoryPicker' in window)) {
+                document.getElementById('permissionRequest').innerHTML = `
+                    <h3>Navegador não suportado</h3>
+                    <p>Seu navegador não suporta o acesso ao sistema de arquivos. Por favor, utilize o Chrome para Android.</p>
+                `;
+                document.getElementById('permissionRequest').style.display = 'block';
+                document.getElementById('appContent').style.display = 'none';
+                return;
+            }
+
             try {
                 const savedHandle = await getSavedDirectoryHandle();
                 if (savedHandle) {
-                    const permissionGranted = await verifyPermission(savedHandle);
-                    if (permissionGranted) {
-                        plantDirectoryHandle = savedHandle;
-                        showStatus('Permissão recuperada com sucesso!');
-                        
-                        // Criar ou acessar pasta "Plano Diário"
+                    plantDirectoryHandle = savedHandle;
+                    console.log("Permissão recuperada do armazenamento local");
+
+                    // Verificar se a permissão ainda é válida
+                    const permissionStatus = await savedHandle.queryPermission({ mode: 'readwrite' });
+                    if (permissionStatus === 'granted') {
+                        // Permissão válida - acessar pasta
                         try {
                             diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
+                            console.log('Pasta "Plano Diário" acessada com sucesso');
                             document.getElementById('permissionRequest').style.display = 'none';
                             document.getElementById('appContent').style.display = 'block';
                             
-                            // Preencher dados da aplicação
+                            // Preencher dados iniciais
+                            const today = new Date().toISOString().split('T')[0];
+                            document.getElementById('dataCultivo').value = today;
+                            document.getElementById('germinationDate').value = today;
+                            
+                            // Carregar dados
                             await preencherSelectPlantas();
                             await updatePlantListUI();
+                            
+                            showStatus('Permissões recuperadas com sucesso!');
                         } catch (e) {
                             console.error('Erro ao acessar pasta "Plano Diário":', e);
                             showStatus('Erro ao acessar pasta de diário', false);
                             document.getElementById('permissionRequest').style.display = 'block';
                         }
                     } else {
+                        // Permissão expirada - solicitar novamente
                         document.getElementById('permissionRequest').style.display = 'block';
-                        document.getElementById('appContent').style.display = 'none';
+                        showStatus('Permissão expirada. Por favor, conceda novamente.', false);
                     }
                 } else {
                     document.getElementById('permissionRequest').style.display = 'block';
@@ -812,30 +668,16 @@
             } catch (e) {
                 console.error('Erro na inicialização:', e);
                 showStatus('Erro ao inicializar: ' + e.message, false);
-                document.getElementById('permissionRequest').style.display = 'block';
-                document.getElementById('appContent').style.display = 'none';
             }
-            
-            // Definir data padrão para hoje
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('dataCultivo').value = today;
-            document.getElementById('germinationDate').value = today;
-            
-            // Ativar o botão automático por padrão
-            setPlantTypeUI('auto');
         }
 
         // Solicitar permissão
         async function requestDirectoryAccess() {
+            if (permissionRequested) return;
+            permissionRequested = true;
+            
             try {
-                const handle = await window.showDirectoryPicker();
-                const permissionGranted = await verifyPermission(handle);
-                
-                if (!permissionGranted) {
-                    showStatus("Permissão negada para acessar o sistema de arquivos.", false);
-                    return false;
-                }
-                
+                const handle = await window.showDirectoryPicker({ mode: 'readwrite' });
                 await saveDirectoryHandle(handle);
                 plantDirectoryHandle = handle;
                 showStatus('Permissão concedida com sucesso!');
@@ -843,22 +685,31 @@
                 // Criar ou acessar pasta "Plano Diário"
                 try {
                     diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
+                    console.log('Pasta "Plano Diário" criada/acessada com sucesso');
                     document.getElementById('permissionRequest').style.display = 'none';
                     document.getElementById('appContent').style.display = 'block';
                     
-                    // Preencher dados da aplicação
+                    // Preencher dados iniciais
+                    const today = new Date().toISOString().split('T')[0];
+                    document.getElementById('dataCultivo').value = today;
+                    document.getElementById('germinationDate').value = today;
+                    
+                    // Carregar dados
                     await preencherSelectPlantas();
                     await updatePlantListUI();
-                    
-                    return true;
                 } catch (e) {
                     console.error('Erro ao acessar pasta "Plano Diário":', e);
                     showStatus('Erro ao criar pasta de diário', false);
-                    return false;
                 }
+                
+                return true;
             } catch (e) {
                 console.error('Erro ao solicitar permissão:', e);
-                if (e.name !== 'AbortError') {
+                permissionRequested = false;
+                
+                if (e.name === 'AbortError') {
+                    showStatus("Seleção de pasta cancelada.", false);
+                } else {
                     showStatus("Permissão negada para acessar o sistema de arquivos.", false);
                 }
                 return false;
@@ -915,12 +766,10 @@
             await writable.write(JSON.stringify(existing, null, 2));
             await writable.close();
 
-            showStatus(indexToEdit !== null ? "Planta atualizada com sucesso!" : "Planta salva com sucesso!");
+            showStatus(indexToEdit !== null ? "Planta atualizada com sucesso." : "Planta salva.");
             editingIndex = null;
             updatePlantListUI();
             document.getElementById("plantForm").reset();
-            setPlantTypeUI('auto');
-            preencherSelectPlantas();
         }
 
         document.getElementById("plantForm").addEventListener("submit", async function(e) {
@@ -964,16 +813,12 @@
                 div.className = "plant-list-item";
                 div.innerHTML = `
                     <h3>${p.name}</h3>
-                    <p><i class="fas fa-tag"></i> Tipo: ${p.type === 'auto' ? 'Automática' : 'Fotoperíodo'}</p>
-                    <p><i class="fas fa-calendar-day"></i> Germinação: ${p.germinationDate || '-'}</p>
-                    <p><i class="fas fa-clock"></i> Idade: ${ageDays === '-' ? '-' : ageDays + ' dias'}</p>
+                    <p>Tipo: ${p.type === 'auto' ? 'Automática' : 'Fotoperíodo'}</p>
+                    <p>Germinação: ${p.germinationDate || '-'}</p>
+                    <p>Idade: ${ageDays === '-' ? '-' : ageDays + ' dias'}</p>
                     <div class="plant-actions">
-                        <button class="btn btn-secondary" onclick="editPlant(${i})">
-                            <i class="fas fa-edit"></i> Editar
-                        </button>
-                        <button class="btn btn-primary" onclick="deletePlant(${i})">
-                            <i class="fas fa-trash"></i> Excluir
-                        </button>
+                        <button class="btn btn-secondary" onclick="editPlant(${i})">✏️ Editar</button>
+                        <button class="btn btn-primary" onclick="deletePlant(${i})">🗑️ Excluir</button>
                     </div>
                 `;
 
@@ -993,7 +838,6 @@
             await writable.close();
             showStatus("Planta excluída com sucesso.");
             updatePlantListUI();
-            preencherSelectPlantas();
         }
 
         async function editPlant(index) {
@@ -1070,10 +914,10 @@
                 try {
                     const fileHandle = await diarioDirHandle.getFileHandle(fileName, { create: true });
                     const writable = await fileHandle.createWritable();
-                    const arrayBuffer = await imageFile.arrayBuffer();
-                    await writable.write(arrayBuffer);
+                    await writable.write(await imageFile.arrayBuffer());
                     await writable.close();
                     entry.image = fileName; // armazena o nome do arquivo
+                    showStatus('Imagem salva na pasta "Plano Diário"');
                 } catch (e) {
                     console.error('Erro ao salvar a imagem:', e);
                     showStatus('Erro ao salvar a imagem', false);
@@ -1130,6 +974,10 @@
 
         // ======== HISTÓRICO ======== //
         async function loadPlantHistory() {
+            // Revogar URLs de imagens anteriores
+            historyImageUrls.forEach(url => URL.revokeObjectURL(url));
+            historyImageUrls = [];
+
             if (!plantDirectoryHandle) {
                 const granted = await requestDirectoryAccess();
                 if (!granted) return;
@@ -1179,7 +1027,7 @@
 
                 const plantHeader = document.createElement("div");
                 plantHeader.className = "plant-list-item";
-                plantHeader.innerHTML = `<h3><i class="fas fa-leaf"></i> ${plant.name}</h3>`;
+                plantHeader.innerHTML = `<h3>${plant.name}</h3>`;
                 container.appendChild(plantHeader);
 
                 entries.forEach(entry => {
@@ -1212,9 +1060,9 @@
                         </div>`;
                     
                     entryDiv.innerHTML = `
-                        <div class="history-date"><i class="fas fa-calendar"></i> ${entry.date}</div>
+                        <div class="history-date">${entry.date}</div>
                         <div class="history-values">${valuesHtml}</div>
-                        <div><i class="fas fa-sticky-note"></i> ${entry.obs || 'Sem observações'}</div>
+                        <div>${entry.obs || ''}</div>
                     `;
                     
                     // Adicionar imagem diretamente no histórico
@@ -1224,7 +1072,7 @@
                     if (entry.image) {
                         const imageLabel = document.createElement('div');
                         imageLabel.className = 'history-image-label';
-                        imageLabel.innerHTML = '<i class="fas fa-image"></i> Imagem:';
+                        imageLabel.textContent = 'Imagem:';
                         imageContainer.appendChild(imageLabel);
                         
                         const img = document.createElement('img');
@@ -1241,7 +1089,7 @@
                     } else {
                         const noImage = document.createElement('div');
                         noImage.className = 'no-image';
-                        noImage.innerHTML = '<i class="fas fa-ban"></i> Nenhuma imagem registrada';
+                        noImage.textContent = 'Nenhuma imagem registrada';
                         imageContainer.appendChild(noImage);
                     }
                     
@@ -1300,18 +1148,6 @@
             if (e.key === 'Escape') {
                 closeImageModal();
             }
-        });
-        
-        // Fechar modal ao tocar fora da imagem (mobile)
-        document.getElementById('imageModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('imageModal')) {
-                closeImageModal();
-            }
-        });
-        
-        // Liberar memória das imagens ao fechar o aplicativo
-        window.addEventListener('beforeunload', () => {
-            historyImageUrls.forEach(url => URL.revokeObjectURL(url));
         });
     </script>
 </body>
