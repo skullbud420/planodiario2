@@ -11,7 +11,6 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            -webkit-tap-highlight-color: transparent;
         }
         
         body {
@@ -20,7 +19,6 @@
             line-height: 1.6;
             padding: 15px;
             min-height: 100vh;
-            touch-action: manipulation;
         }
         
         .container {
@@ -49,19 +47,11 @@
             background: linear-gradient(90deg, #27ae60, #9b59b6, #e74c3c, #f39c12);
         }
         
-        h1, h2 {
+        h1 {
             color: #fff;
+            font-size: 2.2rem;
             margin-bottom: 12px;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-        
-        h1 {
-            font-size: 1.8rem;
-        }
-        
-        h2 {
-            font-size: 1.4rem;
-            margin-top: 20px;
         }
         
         .btn {
@@ -72,7 +62,6 @@
             cursor: pointer;
             transition: all 0.3s ease;
             flex: 1;
-            font-size: 1rem;
         }
         
         .btn-primary {
@@ -85,13 +74,13 @@
             color: white;
         }
         
-        .btn:hover, .btn:active {
+        .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .form-group label {
@@ -99,7 +88,6 @@
             margin-bottom: 8px;
             color: white;
             font-weight: 500;
-            font-size: 0.95rem;
         }
         
         .form-group input, 
@@ -112,12 +100,10 @@
             border-radius: 8px;
             color: white;
             font-size: 1rem;
-            -webkit-appearance: none;
         }
         
         .form-group textarea {
             min-height: 100px;
-            resize: vertical;
         }
         
         .form-group input:focus, 
@@ -130,12 +116,12 @@
         
         .form-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 15px;
+            margin-top: 25px;
         }
         
         .plant-btn {
-            padding: 12px 15px;
+            padding: 12px 20px;
             border: none;
             border-radius: 8px;
             font-weight: 600;
@@ -147,7 +133,6 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             width: 100%;
             justify-content: center;
-            font-size: 0.95rem;
         }
         
         .plant-btn.auto {
@@ -177,18 +162,16 @@
         .plant-list-item h3 {
             color: white;
             margin-bottom: 10px;
-            font-size: 1.2rem;
         }
         
         .plant-list-item p {
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            margin-bottom: 10px;
         }
         
         .plant-actions {
             display: flex;
-            gap: 8px;
-            margin-top: 12px;
+            gap: 10px;
+            margin-top: 10px;
         }
         
         .history-entry {
@@ -203,12 +186,11 @@
             font-weight: bold;
             margin-bottom: 8px;
             color: #3498db;
-            font-size: 1.1rem;
         }
         
         .history-values {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             flex-wrap: wrap;
             margin-bottom: 10px;
         }
@@ -218,25 +200,23 @@
             padding: 8px 12px;
             border-radius: 6px;
             min-width: 120px;
-            flex-grow: 1;
         }
         
         .history-value span {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #b0b0b0;
         }
         
         .history-value strong {
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
         
         .section-nav {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             justify-content: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
         
         .image-preview {
@@ -245,7 +225,6 @@
             margin-top: 10px;
             border-radius: 8px;
             display: none;
-            object-fit: contain;
         }
         
         .modal {
@@ -293,13 +272,12 @@
         }
         
         .status-bar {
-            padding: 12px;
+            padding: 10px;
             background: rgba(40, 40, 50, 0.8);
             border-radius: 8px;
             margin-bottom: 15px;
             text-align: center;
             display: none;
-            font-size: 0.95rem;
         }
         
         .status-bar.success {
@@ -323,12 +301,6 @@
         
         .permission-request h3 {
             margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .permission-request p {
-            margin-bottom: 15px;
-            font-size: 0.95rem;
         }
         
         .history-image {
@@ -362,72 +334,6 @@
             font-style: italic;
             color: #777;
             margin-top: 10px;
-            font-size: 0.9rem;
-        }
-        
-        .unsupported {
-            background: rgba(231, 76, 60, 0.3);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            margin-bottom: 20px;
-            border-left: 4px solid #e74c3c;
-            display: none;
-        }
-        
-        .unsupported h3 {
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-        
-        .unsupported p {
-            margin-bottom: 15px;
-            font-size: 0.95rem;
-        }
-        
-        /* Mobile specific styles */
-        @media (max-width: 480px) {
-            .form-actions {
-                flex-direction: column;
-            }
-            
-            .form-group input, 
-            .form-group select, 
-            .form-group textarea {
-                padding: 10px;
-                font-size: 0.95rem;
-            }
-            
-            .btn {
-                padding: 10px 15px;
-                font-size: 0.95rem;
-            }
-            
-            .plant-actions {
-                flex-direction: column;
-            }
-            
-            .history-values {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .history-value {
-                min-width: auto;
-            }
-            
-            .section-nav .btn {
-                font-size: 0.9rem;
-                padding: 8px 12px;
-            }
-            
-            header {
-                padding: 15px 10px;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-            }
         }
     </style>
 </head>
@@ -437,11 +343,6 @@
             <h1><i class="fas fa-book"></i> Diário de Cultivo</h1>
             <p>Registre e acompanhe o desenvolvimento das suas plantas</p>
         </header>
-        
-        <div id="unsupportedBrowser" class="unsupported">
-            <h3>Navegador não suportado</h3>
-            <p>Seu navegador não suporta a API de Sistema de Arquivos necessária para este aplicativo. Por favor, utilize um navegador moderno como Chrome ou Edge.</p>
-        </div>
         
         <div id="permissionRequest" class="permission-request">
             <h3>Permissão Necessária</h3>
@@ -461,7 +362,7 @@
                 <button class="btn btn-secondary" onclick="showSection('manage')">Gerenciar Plantas</button>
             </div>
             
-            <div id="statusBar" class="status-bar success">Permissão recuperada com sucesso!</div>
+            <div id="statusBar" class="status-bar"></div>
             
             <div id="sections">
                 <div id="register">
@@ -477,21 +378,21 @@
                             <input type="date" id="dataCultivo" required>
                         </div>
 
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 10px;">
                             <div class="form-group" style="flex:1;">
                                 <label>pH</label>
-                                <input type="number" id="phCultivo" placeholder="Ex: 6.2" step="0.1" min="0" max="14">
+                                <input type="number" id="phCultivo" placeholder="Ex: 6.2" step="0.1">
                             </div>
                             <div class="form-group" style="flex:1;">
                                 <label>EC (mS/cm)</label>
-                                <input type="number" id="ecCultivo" placeholder="Ex: 1.8" step="0.1" min="0">
+                                <input type="number" id="ecCultivo" placeholder="Ex: 1.8" step="0.1">
                             </div>
                         </div>
 
-                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div style="display: flex; gap: 10px;">
                             <div class="form-group" style="flex:1;">
                                 <label>Temperatura (°C)</label>
-                                <input type="number" id="tempCultivo" placeholder="Ex: 24.5" step="0.1" min="0" max="50">
+                                <input type="number" id="tempCultivo" placeholder="Ex: 24.5" step="0.1">
                             </div>
                             <div class="form-group" style="flex:1;">
                                 <label>Rega</label>
@@ -506,7 +407,7 @@
                         <div class="form-group">
                             <label>Imagem (opcional)</label>
                             <input type="file" id="imagemCultivo" accept="image/*" capture="environment" onchange="previewImage(event)">
-                            <img id="imagePreview" class="image-preview" alt="Pré-visualização">
+                            <img id="imagePreview" class="image-preview" src="" alt="Pré-visualização">
                         </div>
 
                         <div class="form-group">
@@ -534,17 +435,17 @@
                         <h2>Adicionar Nova Planta</h2>
                         <div class="form-group">
                             <label>Nome da Planta</label>
-                            <input type="text" id="plantName" placeholder="Nome da Planta" required>
+                            <input type="text" id="plantName" placeholder="Nome da Planta">
                         </div>
 
                         <div class="form-group">
                             <label>Data da Germinação</label>
-                            <input type="date" id="germinationDate" required>
+                            <input type="date" id="germinationDate" value="2025-07-15">
                         </div>
 
                         <div class="form-group">
                             <label>Tipo de Planta</label>
-                            <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                            <div style="display:flex; gap:10px;">
                                 <div class="plant-btn auto" id="typeAuto" onclick="setPlantTypeUI('auto')" style="flex:1; justify-content:center;">
                                     <i class="fas fa-bolt"></i>
                                     <span>Automática</span>
@@ -570,7 +471,7 @@
     <div id="imageModal" class="modal">
         <div class="modal-content">
             <button class="close-modal" onclick="closeImageModal()">X</button>
-            <img id="modalImage">
+            <img id="modalImage" src="">
         </div>
     </div>
 
@@ -581,16 +482,6 @@
         let diarioDirHandle = null;
         let editingIndex = null;
         let historyImageUrls = [];
-        
-        // Verificar suporte do navegador
-        function checkBrowserSupport() {
-            if (!('showDirectoryPicker' in window) || !('indexedDB' in window)) {
-                document.getElementById('unsupportedBrowser').style.display = 'block';
-                document.getElementById('permissionRequest').style.display = 'none';
-                return false;
-            }
-            return true;
-        }
         
         // Exibir status
         function showStatus(message, isSuccess = true) {
@@ -686,48 +577,24 @@
             }
         }
 
-        // Verificar permissão
-        async function verifyPermission(handle) {
-            if (await handle.queryPermission({ mode: 'readwrite' }) === 'granted') {
-                return true;
-            }
-            if (await handle.requestPermission({ mode: 'readwrite' }) === 'granted') {
-                return true;
-            }
-            return false;
-        }
-
         // Função de inicialização para recuperar o handle
         async function init() {
-            if (!checkBrowserSupport()) return;
-            
             try {
                 const savedHandle = await getSavedDirectoryHandle();
                 if (savedHandle) {
-                    const permissionGranted = await verifyPermission(savedHandle);
-                    if (permissionGranted) {
-                        plantDirectoryHandle = savedHandle;
-                        showStatus('Permissão recuperada com sucesso!');
-                        console.log("Permissão recuperada do armazenamento local");
-                        
-                        // Criar ou acessar pasta "Plano Diário"
-                        try {
-                            diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
-                            console.log('Pasta "Plano Diário" criada/acessada com sucesso');
-                            document.getElementById('permissionRequest').style.display = 'none';
-                            document.getElementById('appContent').style.display = 'block';
-                            
-                            // Preencher dados da aplicação
-                            await preencherSelectPlantas();
-                            await updatePlantListUI();
-                        } catch (e) {
-                            console.error('Erro ao acessar pasta "Plano Diário":', e);
-                            showStatus('Erro ao acessar pasta de diário', false);
-                            document.getElementById('permissionRequest').style.display = 'block';
-                        }
-                    } else {
-                        document.getElementById('permissionRequest').style.display = 'block';
-                        document.getElementById('appContent').style.display = 'none';
+                    plantDirectoryHandle = savedHandle;
+                    showStatus('Permissão recuperada com sucesso!');
+                    console.log("Permissão recuperada do armazenamento local");
+                    
+                    // Criar ou acessar pasta "Plano Diário"
+                    try {
+                        diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
+                        console.log('Pasta "Plano Diário" criada/acessada com sucesso');
+                        document.getElementById('permissionRequest').style.display = 'none';
+                        document.getElementById('appContent').style.display = 'block';
+                    } catch (e) {
+                        console.error('Erro ao acessar pasta "Plano Diário":', e);
+                        showStatus('Erro ao acessar pasta de diário', false);
                     }
                 } else {
                     document.getElementById('permissionRequest').style.display = 'block';
@@ -736,27 +603,13 @@
             } catch (e) {
                 console.error('Erro na inicialização:', e);
                 showStatus('Erro ao inicializar: ' + e.message, false);
-                document.getElementById('permissionRequest').style.display = 'block';
-                document.getElementById('appContent').style.display = 'none';
             }
-            
-            // Definir data padrão para hoje
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('dataCultivo').value = today;
-            document.getElementById('germinationDate').value = today;
         }
 
         // Solicitar permissão
         async function requestDirectoryAccess() {
             try {
                 const handle = await window.showDirectoryPicker();
-                const permissionGranted = await verifyPermission(handle);
-                
-                if (!permissionGranted) {
-                    showStatus("Permissão negada para acessar o sistema de arquivos.", false);
-                    return false;
-                }
-                
                 await saveDirectoryHandle(handle);
                 plantDirectoryHandle = handle;
                 showStatus('Permissão concedida com sucesso!');
@@ -767,22 +620,20 @@
                     console.log('Pasta "Plano Diário" criada/acessada com sucesso');
                     document.getElementById('permissionRequest').style.display = 'none';
                     document.getElementById('appContent').style.display = 'block';
-                    
-                    // Preencher dados da aplicação
-                    await preencherSelectPlantas();
-                    await updatePlantListUI();
-                    
-                    return true;
                 } catch (e) {
                     console.error('Erro ao acessar pasta "Plano Diário":', e);
                     showStatus('Erro ao criar pasta de diário', false);
-                    return false;
                 }
+                
+                // Preencher o select de plantas ao carregar
+                await preencherSelectPlantas();
+                // Atualizar a lista de plantas na seção de gerenciamento
+                await updatePlantListUI();
+                
+                return true;
             } catch (e) {
                 console.error('Erro ao solicitar permissão:', e);
-                if (e.name !== 'AbortError') {
-                    showStatus("Permissão negada para acessar o sistema de arquivos.", false);
-                }
+                showStatus("Permissão negada para acessar o sistema de arquivos.", false);
                 return false;
             }
         }
@@ -841,7 +692,6 @@
             editingIndex = null;
             updatePlantListUI();
             document.getElementById("plantForm").reset();
-            setPlantTypeUI('auto');
         }
 
         document.getElementById("plantForm").addEventListener("submit", async function(e) {
@@ -1214,13 +1064,6 @@
         // Fechar modal ao pressionar ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                closeImageModal();
-            }
-        });
-        
-        // Fechar modal ao tocar fora da imagem (mobile)
-        document.getElementById('imageModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('imageModal')) {
                 closeImageModal();
             }
         });
