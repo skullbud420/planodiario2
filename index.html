@@ -703,9 +703,7 @@
         function closeImageModal() {
             document.getElementById('imageModal').style.display = 'none';
             // Revogar URL para liberar memória
-            if (document.getElementById('modalImage').src) {
-                URL.revokeObjectURL(document.getElementById('modalImage').src);
-            }
+            URL.revokeObjectURL(document.getElementById('modalImage').src);
             document.getElementById('modalImage').src = '';
         }
 
@@ -798,11 +796,6 @@
                             // Preencher dados da aplicação
                             await preencherSelectPlantas();
                             await updatePlantListUI();
-                            
-                            // Definir data padrão para hoje
-                            const today = new Date().toISOString().split('T')[0];
-                            document.getElementById('dataCultivo').value = today;
-                            document.getElementById('germinationDate').value = today;
                         } catch (e) {
                             console.error('Erro ao acessar pasta "Plano Diário":', e);
                             showStatus('Erro ao acessar pasta de diário', false);
@@ -822,6 +815,11 @@
                 document.getElementById('permissionRequest').style.display = 'block';
                 document.getElementById('appContent').style.display = 'none';
             }
+            
+            // Definir data padrão para hoje
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dataCultivo').value = today;
+            document.getElementById('germinationDate').value = today;
             
             // Ativar o botão automático por padrão
             setPlantTypeUI('auto');
@@ -851,11 +849,6 @@
                     // Preencher dados da aplicação
                     await preencherSelectPlantas();
                     await updatePlantListUI();
-                    
-                    // Definir data padrão para hoje
-                    const today = new Date().toISOString().split('T')[0];
-                    document.getElementById('dataCultivo').value = today;
-                    document.getElementById('germinationDate').value = today;
                     
                     return true;
                 } catch (e) {
