@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Diário de Cultivo Avançado</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,14 +11,16 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
         body {
-            background: linear-gradient(135deg, #0f1b3a, #1c3b6a, #0f1b3a);
+            background: linear-gradient(135deg, #0c172e, #1a3a6a, #0c172e);
             color: #e0e0e0;
             line-height: 1.6;
             padding: 15px;
             min-height: 100vh;
+            touch-action: manipulation;
         }
         
         .container {
@@ -29,9 +31,9 @@
         header {
             text-align: center;
             padding: 20px 15px;
-            background: rgba(30, 30, 40, 0.97);
+            background: rgba(20, 25, 40, 0.97);
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
             margin-bottom: 20px;
             position: relative;
             overflow: hidden;
@@ -44,14 +46,22 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, #27ae60, #9b59b6, #e74c3c, #f39c12);
+            background: linear-gradient(90deg, #27ae60, #8e44ad, #e74c3c, #f39c12);
+        }
+        
+        h1, h2 {
+            color: #fff;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         
         h1 {
-            color: #fff;
-            font-size: 2.2rem;
-            margin-bottom: 12px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            font-size: 1.8rem;
+        }
+        
+        h2 {
+            font-size: 1.4rem;
+            margin-top: 20px;
         }
         
         .btn {
@@ -61,49 +71,62 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            flex: 1;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         .btn-primary {
             background: #27ae60;
             color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
             color: white;
+            border: 1px solid rgba(255,255,255,0.2);
         }
         
-        .btn:hover {
+        .btn:hover, .btn:active {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .btn i {
+            font-size: 1.1rem;
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .form-group label {
             display: block;
             margin-bottom: 8px;
-            color: white;
+            color: #c0d0ff;
             font-weight: 500;
+            font-size: 0.95rem;
         }
         
         .form-group input, 
         .form-group select, 
         .form-group textarea {
             width: 100%;
-            padding: 12px;
-            background: rgba(40, 40, 50, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            padding: 12px 15px;
+            background: rgba(30, 35, 50, 0.8);
+            border: 1px solid rgba(100, 120, 180, 0.3);
+            border-radius: 10px;
             color: white;
             font-size: 1rem;
+            -webkit-appearance: none;
         }
         
         .form-group textarea {
             min-height: 100px;
+            resize: vertical;
         }
         
         .form-group input:focus, 
@@ -116,23 +139,25 @@
         
         .form-actions {
             display: flex;
-            gap: 15px;
-            margin-top: 25px;
+            gap: 10px;
+            margin-top: 20px;
         }
         
         .plant-btn {
-            padding: 12px 20px;
+            padding: 15px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.4s ease;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             width: 100%;
             justify-content: center;
+            font-size: 0.95rem;
+            text-align: center;
         }
         
         .plant-btn.auto {
@@ -148,88 +173,97 @@
         .plant-btn.active {
             transform: scale(1.03);
             box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-            border: 2px solid white;
+            border: 2px solid rgba(255,255,255,0.5);
         }
         
         .plant-list-item {
-            background: rgba(40, 40, 50, 0.8);
+            background: rgba(30, 35, 50, 0.8);
             padding: 15px;
-            border-radius: 10px;
+            border-radius: 12px;
             margin-bottom: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(100, 120, 180, 0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .plant-list-item h3 {
             color: white;
             margin-bottom: 10px;
+            font-size: 1.2rem;
         }
         
         .plant-list-item p {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: #d0d0ff;
         }
         
         .plant-actions {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         
         .history-entry {
-            background: rgba(40, 40, 50, 0.8);
+            background: rgba(30, 35, 50, 0.8);
             padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
             border-left: 4px solid #3498db;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .history-date {
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: #3498db;
+            font-size: 1.1rem;
         }
         
         .history-values {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         
         .history-value {
             background: rgba(52, 152, 219, 0.2);
-            padding: 8px 12px;
-            border-radius: 6px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            flex-grow: 1;
             min-width: 120px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         
         .history-value span {
             display: block;
-            font-size: 0.9rem;
-            color: #b0b0b0;
+            font-size: 0.85rem;
+            color: #b0c0ff;
+            margin-bottom: 3px;
         }
         
         .history-value strong {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
+            color: white;
         }
         
         .section-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             justify-content: center;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
         
-        .section-nav .btn {
-            min-width: 120px;
-        }
-        
         .image-preview {
             max-width: 100%;
-            max-height: 200px;
-            margin-top: 10px;
-            border-radius: 8px;
+            max-height: 250px;
+            margin-top: 15px;
+            border-radius: 10px;
             display: none;
+            object-fit: contain;
+            border: 1px solid rgba(100, 120, 180, 0.3);
+            background: rgba(0,0,0,0.2);
         }
         
         .modal {
@@ -239,7 +273,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.97);
             z-index: 1000;
             align-items: center;
             justify-content: center;
@@ -258,54 +292,68 @@
             max-width: 100%;
             max-height: 90vh;
             object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
         
         .close-modal {
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 20px;
+            right: 20px;
             background: #e74c3c;
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             cursor: pointer;
             z-index: 1001;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
         
         .status-bar {
-            padding: 10px;
-            background: rgba(40, 40, 50, 0.8);
-            border-radius: 8px;
-            margin-bottom: 15px;
+            padding: 15px;
+            background: rgba(30, 35, 50, 0.95);
+            border-radius: 10px;
+            margin-bottom: 20px;
             text-align: center;
             display: none;
+            font-size: 0.95rem;
+            border-left: 4px solid #27ae60;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .status-bar.success {
-            background: rgba(39, 174, 96, 0.3);
             border-left: 4px solid #27ae60;
         }
         
         .status-bar.error {
-            background: rgba(231, 76, 60, 0.3);
             border-left: 4px solid #e74c3c;
         }
         
         .permission-request {
-            background: rgba(52, 152, 219, 0.3);
-            padding: 20px;
-            border-radius: 10px;
+            background: rgba(30, 35, 50, 0.95);
+            padding: 25px 20px;
+            border-radius: 12px;
             text-align: center;
             margin-bottom: 20px;
             border-left: 4px solid #3498db;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
         .permission-request h3 {
             margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: #3498db;
+        }
+        
+        .permission-request p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #d0d0ff;
+            line-height: 1.5;
         }
         
         .history-image {
@@ -313,15 +361,16 @@
             max-width: 300px;
             height: 200px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-top: 10px;
             cursor: pointer;
             transition: transform 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.1);
+            border: 2px solid rgba(100, 120, 180, 0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
         
         .history-image:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
             border-color: #3498db;
         }
         
@@ -330,91 +379,192 @@
         }
         
         .history-image-label {
-            font-size: 0.9rem;
-            color: #b0b0b0;
-            margin-bottom: 5px;
+            font-size: 0.95rem;
+            color: #b0c0ff;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
         
         .no-image {
             font-style: italic;
             color: #777;
             margin-top: 10px;
+            font-size: 0.9rem;
         }
         
-        .mobile-warning {
-            background: rgba(231, 76, 60, 0.3);
-            padding: 15px;
-            border-radius: 8px;
+        .unsupported {
+            background: rgba(30, 35, 50, 0.95);
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
             margin-bottom: 20px;
             border-left: 4px solid #e74c3c;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             display: none;
+        }
+        
+        .unsupported h3 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: #e74c3c;
+        }
+        
+        .unsupported p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+            color: #d0d0ff;
+            line-height: 1.5;
+        }
+        
+        /* Mobile specific styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 15px 10px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem;
+            }
+            
+            .btn {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+            
+            .form-group input, 
+            .form-group select, 
+            .form-group textarea {
+                padding: 12px;
+            }
+            
+            .form-actions {
+                flex-direction: column;
+            }
+            
+            .section-nav {
+                gap: 6px;
+            }
+            
+            .section-nav .btn {
+                font-size: 0.9rem;
+                padding: 10px 12px;
+                flex: 1;
+                min-width: calc(50% - 6px);
+            }
+            
+            .plant-actions {
+                flex-direction: column;
+            }
+            
+            .history-values {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .history-value {
+                min-width: 100%;
+            }
+            
+            .permission-request, .unsupported {
+                padding: 20px 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .section-nav .btn {
+                min-width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .plant-btn {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="mobile-warning" id="mobileWarning">
-            <h3>Atenção: Funcionalidade Limitada</h3>
-            <p>Para melhor experiência, use o Chrome para Android e conceda permissões de armazenamento.</p>
-        </div>
-        
         <header>
-            <h1><i class="fas fa-book"></i> Diário de Cultivo</h1>
+            <h1><i class="fas fa-seedling"></i> Diário de Cultivo</h1>
             <p>Registre e acompanhe o desenvolvimento das suas plantas</p>
         </header>
         
-        <div id="permissionRequest" class="permission-request" style="display: none;">
-            <h3>Permissão Necessária</h3>
-            <p>Para salvar seus dados localmente, precisamos de permissão para acessar o sistema de arquivos.</p>
+        <div id="unsupportedBrowser" class="unsupported">
+            <h3><i class="fas fa-exclamation-triangle"></i> Navegador não suportado</h3>
+            <p>Seu navegador não suporta a API de Sistema de Arquivos necessária para este aplicativo. Por favor, utilize um navegador moderno como Chrome ou Edge.</p>
+        </div>
+        
+        <div id="permissionRequest" class="permission-request">
+            <h3><i class="fas fa-key"></i> Permissão Necessária</h3>
+            <p>Para salvar seus dados localmente, precisamos de permissão para acessar o sistema de arquivos. Suas informações ficarão salvas apenas no seu dispositivo.</p>
             <button class="btn btn-primary" id="requestPermissionBtn">
-                <i class="fas fa-key"></i> Conceder Permissão
+                <i class="fas fa-check"></i> Conceder Permissão
             </button>
-            <p class="small" style="margin-top: 15px; font-size: 0.9rem; color: #b0b0b0;">
-                Suas informações ficarão salvas apenas no seu dispositivo
+            <p class="small" style="margin-top: 20px; font-size: 0.9rem; color: #a0b0ff;">
+                <i class="fas fa-info-circle"></i> Esta permissão será lembrada mesmo após fechar o navegador
             </p>
         </div>
         
         <div id="appContent" style="display: none;">
             <div class="section-nav">
-                <button class="btn btn-secondary" onclick="showSection('register')">Registrar Dados</button>
-                <button class="btn btn-secondary" onclick="showSection('history')">Histórico</button>
-                <button class="btn btn-secondary" onclick="showSection('manage')">Gerenciar Plantas</button>
+                <button class="btn btn-secondary" onclick="showSection('register')">
+                    <i class="fas fa-pencil-alt"></i> Registrar
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('history')">
+                    <i class="fas fa-history"></i> Histórico
+                </button>
+                <button class="btn btn-secondary" onclick="showSection('manage')">
+                    <i class="fas fa-leaf"></i> Plantas
+                </button>
             </div>
             
-            <div id="statusBar" class="status-bar success" style="display: none;"></div>
+            <div id="statusBar" class="status-bar success"></div>
             
             <div id="sections">
                 <div id="register">
                     <div class="form-group">
-                        <label>Selecione a planta</label>
+                        <label><i class="fas fa-seedling"></i> Selecione a planta</label>
                         <select id="selectPlanta" required>
                             <option value="">🌱 Selecione uma planta</option>
                         </select>
                     </div>
                     <form id="cultivoForm">
                         <div class="form-group">
-                            <label>Data</label>
+                            <label><i class="fas fa-calendar"></i> Data</label>
                             <input type="date" id="dataCultivo" required>
                         </div>
 
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <div class="form-group" style="flex:1; min-width: 140px;">
-                                <label>pH</label>
-                                <input type="number" id="phCultivo" placeholder="Ex: 6.2" step="0.1">
+                            <div class="form-group" style="flex:1;">
+                                <label><i class="fas fa-tint"></i> pH</label>
+                                <input type="number" id="phCultivo" placeholder="Ex: 6.2" step="0.1" min="0" max="14">
                             </div>
-                            <div class="form-group" style="flex:1; min-width: 140px;">
-                                <label>EC (mS/cm)</label>
-                                <input type="number" id="ecCultivo" placeholder="Ex: 1.8" step="0.1">
+                            <div class="form-group" style="flex:1;">
+                                <label><i class="fas fa-bolt"></i> EC (mS/cm)</label>
+                                <input type="number" id="ecCultivo" placeholder="Ex: 1.8" step="0.1" min="0">
                             </div>
                         </div>
 
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                            <div class="form-group" style="flex:1; min-width: 140px;">
-                                <label>Temperatura (°C)</label>
-                                <input type="number" id="tempCultivo" placeholder="Ex: 24.5" step="0.1">
+                            <div class="form-group" style="flex:1;">
+                                <label><i class="fas fa-thermometer-half"></i> Temperatura (°C)</label>
+                                <input type="number" id="tempCultivo" placeholder="Ex: 24.5" step="0.1" min="0" max="50">
                             </div>
-                            <div class="form-group" style="flex:1; min-width: 140px;">
-                                <label>Rega</label>
+                            <div class="form-group" style="flex:1;">
+                                <label><i class="fas fa-shower"></i> Rega</label>
                                 <select id="regaCultivo">
                                     <option>Normal</option>
                                     <option>Flush</option>
@@ -424,19 +574,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Imagem (opcional)</label>
+                            <label><i class="fas fa-camera"></i> Imagem (opcional)</label>
                             <input type="file" id="imagemCultivo" accept="image/*" capture="environment" onchange="previewImage(event)">
-                            <img id="imagePreview" class="image-preview" src="" alt="Pré-visualização">
+                            <img id="imagePreview" class="image-preview" alt="Pré-visualização">
                         </div>
 
                         <div class="form-group">
-                            <label>Observações</label>
+                            <label><i class="fas fa-sticky-note"></i> Observações</label>
                             <textarea id="obsCultivo" placeholder="Anotações sobre o cultivo..."></textarea>
                         </div>
 
                         <div class="form-actions">
-                            <button type="reset" class="btn btn-secondary">Limpar</button>
-                            <button type="submit" class="btn btn-primary">Salvar Registro</button>
+                            <button type="reset" class="btn btn-secondary">
+                                <i class="fas fa-trash-alt"></i> Limpar
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Salvar Registro
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -447,29 +601,29 @@
                 
                 <div id="manage" style="display:none">
                     <div id="plantList" style="margin-bottom: 20px;">
-                        <h2>Suas Plantas</h2>
-                        <div id="plantListContent" style="display:flex; flex-direction:column; gap:12px;"></div>
+                        <h2><i class="fas fa-leaf"></i> Suas Plantas</h2>
+                        <div id="plantListContent" style="display:flex; flex-direction:column; gap:15px;"></div>
                     </div>
                     <form id="plantForm">
-                        <h2>Adicionar Nova Planta</h2>
+                        <h2><i class="fas fa-plus-circle"></i> Adicionar Nova Planta</h2>
                         <div class="form-group">
-                            <label>Nome da Planta</label>
-                            <input type="text" id="plantName" placeholder="Nome da Planta">
+                            <label><i class="fas fa-signature"></i> Nome da Planta</label>
+                            <input type="text" id="plantName" placeholder="Nome da Planta" required>
                         </div>
 
                         <div class="form-group">
-                            <label>Data da Germinação</label>
-                            <input type="date" id="germinationDate">
+                            <label><i class="fas fa-calendar-day"></i> Data da Germinação</label>
+                            <input type="date" id="germinationDate" required>
                         </div>
 
                         <div class="form-group">
-                            <label>Tipo de Planta</label>
+                            <label><i class="fas fa-tag"></i> Tipo de Planta</label>
                             <div style="display:flex; gap:10px; flex-wrap: wrap;">
-                                <div class="plant-btn auto" id="typeAuto" onclick="setPlantTypeUI('auto')" style="flex:1; min-width: 140px; justify-content:center;">
+                                <div class="plant-btn auto" id="typeAuto" onclick="setPlantTypeUI('auto')" style="flex:1; justify-content:center;">
                                     <i class="fas fa-bolt"></i>
                                     <span>Automática</span>
                                 </div>
-                                <div class="plant-btn photo" id="typePhoto" onclick="setPlantTypeUI('photo')" style="flex:1; min-width: 140px; justify-content:center;">
+                                <div class="plant-btn photo" id="typePhoto" onclick="setPlantTypeUI('photo')" style="flex:1; justify-content:center;">
                                     <i class="fas fa-sun"></i>
                                     <span>Fotoperíodo</span>
                                 </div>
@@ -477,8 +631,12 @@
                         </div>
 
                         <div class="form-actions">
-                            <button class="btn btn-primary" type="submit">Salvar Planta</button>
-                            <button class="btn btn-secondary" type="reset">Cancelar</button>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-save"></i> Salvar Planta
+                            </button>
+                            <button class="btn btn-secondary" type="reset">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -489,8 +647,8 @@
     <!-- Modal para exibir imagens em tela cheia -->
     <div id="imageModal" class="modal">
         <div class="modal-content">
-            <button class="close-modal" onclick="closeImageModal()">X</button>
-            <img id="modalImage" src="">
+            <button class="close-modal" onclick="closeImageModal()">×</button>
+            <img id="modalImage">
         </div>
     </div>
 
@@ -501,6 +659,16 @@
         let diarioDirHandle = null;
         let editingIndex = null;
         let historyImageUrls = [];
+        
+        // Verificar suporte do navegador
+        function checkBrowserSupport() {
+            if (!('showDirectoryPicker' in window) || !('indexedDB' in window)) {
+                document.getElementById('unsupportedBrowser').style.display = 'block';
+                document.getElementById('permissionRequest').style.display = 'none';
+                return false;
+            }
+            return true;
+        }
         
         // Exibir status
         function showStatus(message, isSuccess = true) {
@@ -535,25 +703,11 @@
         function closeImageModal() {
             document.getElementById('imageModal').style.display = 'none';
             // Revogar URL para liberar memória
-            if (document.getElementById('modalImage').src) {
-                URL.revokeObjectURL(document.getElementById('modalImage').src);
-            }
+            URL.revokeObjectURL(document.getElementById('modalImage').src);
             document.getElementById('modalImage').src = '';
         }
 
         // ======== SISTEMA DE PERMISSÃO DE ARQUIVOS ======== //
-        // Verificar suporte do navegador
-        function checkBrowserSupport() {
-            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-            const isChrome = /Chrome/.test(navigator.userAgent);
-            
-            if (isMobile && !isChrome) {
-                document.getElementById('mobileWarning').style.display = 'block';
-            }
-            
-            return ('showDirectoryPicker' in window);
-        }
-
         // Função para abrir o banco de dados
         function openDB() {
             return new Promise((resolve, reject) => {
@@ -605,17 +759,17 @@
                 });
             } catch (e) {
                 console.error('Erro ao recuperar o handle:', e);
+                showStatus('Erro ao recuperar permissões', false);
                 return null;
             }
         }
 
-        // Verificar se temos permissão válida
+        // Verificar permissão
         async function verifyPermission(handle) {
-            const options = { mode: 'readwrite' };
-            if (await handle.queryPermission(options) === 'granted') {
+            if (await handle.queryPermission({ mode: 'readwrite' }) === 'granted') {
                 return true;
             }
-            if (await handle.requestPermission(options) === 'granted') {
+            if (await handle.requestPermission({ mode: 'readwrite' }) === 'granted') {
                 return true;
             }
             return false;
@@ -623,36 +777,23 @@
 
         // Função de inicialização para recuperar o handle
         async function init() {
-            if (!checkBrowserSupport()) {
-                document.getElementById('permissionRequest').innerHTML = `
-                    <h3>Navegador não suportado</h3>
-                    <p>Seu navegador não suporta o acesso ao sistema de arquivos. Por favor, utilize o Chrome para Android.</p>
-                `;
-                document.getElementById('permissionRequest').style.display = 'block';
-                return;
-            }
-
+            if (!checkBrowserSupport()) return;
+            
             try {
                 const savedHandle = await getSavedDirectoryHandle();
                 if (savedHandle) {
-                    // Verificar se a permissão ainda é válida
-                    if (await verifyPermission(savedHandle)) {
+                    const permissionGranted = await verifyPermission(savedHandle);
+                    if (permissionGranted) {
                         plantDirectoryHandle = savedHandle;
                         showStatus('Permissão recuperada com sucesso!');
                         
                         // Criar ou acessar pasta "Plano Diário"
                         try {
                             diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
-                            console.log('Pasta "Plano Diário" acessada com sucesso');
                             document.getElementById('permissionRequest').style.display = 'none';
                             document.getElementById('appContent').style.display = 'block';
                             
-                            // Preencher dados iniciais
-                            const today = new Date().toISOString().split('T')[0];
-                            document.getElementById('dataCultivo').value = today;
-                            document.getElementById('germinationDate').value = today;
-                            
-                            // Carregar dados
+                            // Preencher dados da aplicação
                             await preencherSelectPlantas();
                             await updatePlantListUI();
                         } catch (e) {
@@ -661,62 +802,63 @@
                             document.getElementById('permissionRequest').style.display = 'block';
                         }
                     } else {
-                        // Permissão expirada - solicitar novamente
                         document.getElementById('permissionRequest').style.display = 'block';
+                        document.getElementById('appContent').style.display = 'none';
                     }
                 } else {
-                    // Sem handle salvo - solicitar permissão
                     document.getElementById('permissionRequest').style.display = 'block';
+                    document.getElementById('appContent').style.display = 'none';
                 }
             } catch (e) {
                 console.error('Erro na inicialização:', e);
                 showStatus('Erro ao inicializar: ' + e.message, false);
+                document.getElementById('permissionRequest').style.display = 'block';
+                document.getElementById('appContent').style.display = 'none';
             }
+            
+            // Definir data padrão para hoje
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dataCultivo').value = today;
+            document.getElementById('germinationDate').value = today;
+            
+            // Ativar o botão automático por padrão
+            setPlantTypeUI('auto');
         }
 
         // Solicitar permissão
         async function requestDirectoryAccess() {
             try {
-                const handle = await window.showDirectoryPicker({ 
-                    mode: 'readwrite',
-                    id: 'plantDiaryDirectory'
-                });
+                const handle = await window.showDirectoryPicker();
+                const permissionGranted = await verifyPermission(handle);
                 
-                // Verificar e garantir permissão
-                if (await verifyPermission(handle)) {
-                    await saveDirectoryHandle(handle);
-                    plantDirectoryHandle = handle;
-                    showStatus('Permissão concedida com sucesso!');
+                if (!permissionGranted) {
+                    showStatus("Permissão negada para acessar o sistema de arquivos.", false);
+                    return false;
+                }
+                
+                await saveDirectoryHandle(handle);
+                plantDirectoryHandle = handle;
+                showStatus('Permissão concedida com sucesso!');
+                
+                // Criar ou acessar pasta "Plano Diário"
+                try {
+                    diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
+                    document.getElementById('permissionRequest').style.display = 'none';
+                    document.getElementById('appContent').style.display = 'block';
                     
-                    // Criar ou acessar pasta "Plano Diário"
-                    try {
-                        diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
-                        console.log('Pasta "Plano Diário" criada/acessada com sucesso');
-                        document.getElementById('permissionRequest').style.display = 'none';
-                        document.getElementById('appContent').style.display = 'block';
-                        
-                        // Preencher dados iniciais
-                        const today = new Date().toISOString().split('T')[0];
-                        document.getElementById('dataCultivo').value = today;
-                        document.getElementById('germinationDate').value = today;
-                        
-                        // Carregar dados
-                        await preencherSelectPlantas();
-                        await updatePlantListUI();
-                    } catch (e) {
-                        console.error('Erro ao acessar pasta "Plano Diário":', e);
-                        showStatus('Erro ao criar pasta de diário', false);
-                    }
+                    // Preencher dados da aplicação
+                    await preencherSelectPlantas();
+                    await updatePlantListUI();
+                    
                     return true;
-                } else {
-                    showStatus("Permissão não concedida", false);
+                } catch (e) {
+                    console.error('Erro ao acessar pasta "Plano Diário":', e);
+                    showStatus('Erro ao criar pasta de diário', false);
                     return false;
                 }
             } catch (e) {
                 console.error('Erro ao solicitar permissão:', e);
-                if (e.name === 'AbortError') {
-                    showStatus("Seleção de pasta cancelada.", false);
-                } else {
+                if (e.name !== 'AbortError') {
                     showStatus("Permissão negada para acessar o sistema de arquivos.", false);
                 }
                 return false;
@@ -760,9 +902,10 @@
                 existing = JSON.parse(text);
             } catch (e) {
                 // Se o arquivo não existe, começamos com um array vazio
+                console.log('Criando novo arquivo plantas.json');
             }
 
-            if (indexToEdit !== null && indexToEdit < existing.length) {
+            if (indexToEdit !== null) {
                 existing[indexToEdit] = plantData;
             } else {
                 existing.push(plantData);
@@ -772,10 +915,12 @@
             await writable.write(JSON.stringify(existing, null, 2));
             await writable.close();
 
-            showStatus(indexToEdit !== null ? "Planta atualizada com sucesso." : "Planta salva.");
+            showStatus(indexToEdit !== null ? "Planta atualizada com sucesso!" : "Planta salva com sucesso!");
             editingIndex = null;
             updatePlantListUI();
             document.getElementById("plantForm").reset();
+            setPlantTypeUI('auto');
+            preencherSelectPlantas();
         }
 
         document.getElementById("plantForm").addEventListener("submit", async function(e) {
@@ -792,90 +937,82 @@
 
         async function updatePlantListUI() {
             if (!plantDirectoryHandle) {
-                return;
+                const granted = await requestDirectoryAccess();
+                if (!granted) return;
             }
 
+            const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+            const file = await fileHandle.getFile();
+            let plants = [];
             try {
-                const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-                const file = await fileHandle.getFile();
                 const text = await file.text();
-                const plants = JSON.parse(text) || [];
-
-                const container = document.getElementById("plantListContent");
-                container.innerHTML = '';
-
-                const today = new Date();
-                plants.forEach((p, i) => {
-                    const germ = p.germinationDate ? new Date(p.germinationDate) : null;
-                    const ageDays = germ ? Math.floor((today - germ) / (1000 * 60 * 60 * 24)) : '-';
-
-                    const div = document.createElement("div");
-                    div.className = "plant-list-item";
-                    div.innerHTML = `
-                        <h3>${p.name}</h3>
-                        <p>Tipo: ${p.type === 'auto' ? 'Automática' : 'Fotoperíodo'}</p>
-                        <p>Germinação: ${p.germinationDate || '-'}</p>
-                        <p>Idade: ${ageDays === '-' ? '-' : ageDays + ' dias'}</p>
-                        <div class="plant-actions">
-                            <button class="btn btn-secondary" onclick="editPlant(${i})">✏️ Editar</button>
-                            <button class="btn btn-primary" onclick="deletePlant(${i})">🗑️ Excluir</button>
-                        </div>
-                    `;
-
-                    container.appendChild(div);
-                });
+                plants = JSON.parse(text);
             } catch (err) {
-                console.error("Erro ao ler plantas:", err);
-                showStatus("Erro ao carregar plantas", false);
+                console.error("Erro ao ler plantas.json:", err);
+                plants = [];
             }
+
+            const container = document.getElementById("plantListContent");
+            container.innerHTML = '';
+
+            const today = new Date();
+            plants.forEach((p, i) => {
+                const germ = p.germinationDate ? new Date(p.germinationDate) : null;
+                const ageDays = germ ? Math.floor((today - germ) / (1000 * 60 * 60 * 24)) : '-';
+
+                const div = document.createElement("div");
+                div.className = "plant-list-item";
+                div.innerHTML = `
+                    <h3>${p.name}</h3>
+                    <p><i class="fas fa-tag"></i> Tipo: ${p.type === 'auto' ? 'Automática' : 'Fotoperíodo'}</p>
+                    <p><i class="fas fa-calendar-day"></i> Germinação: ${p.germinationDate || '-'}</p>
+                    <p><i class="fas fa-clock"></i> Idade: ${ageDays === '-' ? '-' : ageDays + ' dias'}</p>
+                    <div class="plant-actions">
+                        <button class="btn btn-secondary" onclick="editPlant(${i})">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-primary" onclick="deletePlant(${i})">
+                            <i class="fas fa-trash"></i> Excluir
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(div);
+            });
         }
 
         async function deletePlant(index) {
             if (!confirm("Tem certeza que deseja excluir esta planta?")) return;
-            
-            try {
-                const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-                const file = await fileHandle.getFile();
-                const text = await file.text();
-                const data = JSON.parse(text);
-                
-                if (index >= 0 && index < data.length) {
-                    data.splice(index, 1);
-                    const writable = await fileHandle.createWritable();
-                    await writable.write(JSON.stringify(data, null, 2));
-                    await writable.close();
-                    showStatus("Planta excluída com sucesso.");
-                    updatePlantListUI();
-                }
-            } catch (e) {
-                console.error("Erro ao excluir planta:", e);
-                showStatus("Erro ao excluir planta", false);
-            }
+            const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+            const file = await fileHandle.getFile();
+            const text = await file.text();
+            const data = JSON.parse(text);
+            data.splice(index, 1);
+            const writable = await fileHandle.createWritable();
+            await writable.write(JSON.stringify(data, null, 2));
+            await writable.close();
+            showStatus("Planta excluída com sucesso.");
+            updatePlantListUI();
+            preencherSelectPlantas();
         }
 
         async function editPlant(index) {
             if (!plantDirectoryHandle) {
-                return;
+                const granted = await requestDirectoryAccess();
+                if (!granted) return;
             }
-            
-            try {
-                const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-                const file = await fileHandle.getFile();
-                const text = await file.text();
-                const data = JSON.parse(text);
-                
-                if (index >= 0 && index < data.length) {
-                    const plant = data[index];
-                    editingIndex = index;
-                    document.getElementById("plantName").value = plant.name;
-                    document.getElementById("germinationDate").value = plant.germinationDate;
-                    setPlantTypeUI(plant.type);
-                    showSection('manage');
-                }
-            } catch (e) {
-                console.error("Erro ao editar planta:", e);
-                showStatus("Erro ao carregar dados da planta", false);
-            }
+            const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+            const file = await fileHandle.getFile();
+            const text = await file.text();
+            const data = JSON.parse(text);
+            const plant = data[index];
+
+            editingIndex = index;
+
+            document.getElementById("plantName").value = plant.name;
+            document.getElementById("germinationDate").value = plant.germinationDate;
+            setPlantTypeUI(plant.type);
+            showSection('manage');
         }
 
         async function preencherSelectPlantas() {
@@ -883,31 +1020,46 @@
             if (!select) return;
 
             if (!plantDirectoryHandle) {
-                return;
+                const granted = await requestDirectoryAccess();
+                if (!granted) return;
             }
 
+            const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+            const file = await fileHandle.getFile();
+            let plants = [];
             try {
-                const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-                const file = await fileHandle.getFile();
                 const text = await file.text();
-                const plants = JSON.parse(text) || [];
-
-                select.innerHTML = '<option value="">🌱 Selecione uma planta</option>';
-                plants.forEach((p, i) => {
-                    const opt = document.createElement("option");
-                    opt.value = i;
-                    opt.textContent = p.name;
-                    select.appendChild(opt);
-                });
+                plants = JSON.parse(text);
             } catch (e) {
-                console.error("Erro ao carregar plantas:", e);
+                console.log('Arquivo plantas.json vazio ou não encontrado');
+                plants = [];
             }
+
+            select.innerHTML = '<option value="">🌱 Selecione uma planta</option>';
+            plants.forEach((p, i) => {
+                const opt = document.createElement("option");
+                opt.value = i;
+                opt.textContent = p.name;
+                select.appendChild(opt);
+            });
         }
 
         // ======== REGISTRO DE CULTIVO ======== //
         async function saveCultivoEntry(entry, imageFile) {
-            if (!plantDirectoryHandle || !diarioDirHandle) {
-                return;
+            if (!plantDirectoryHandle) {
+                const granted = await requestDirectoryAccess();
+                if (!granted) return;
+            }
+
+            // Garantir que temos acesso à pasta "Plano Diário"
+            if (!diarioDirHandle) {
+                try {
+                    diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
+                } catch (e) {
+                    console.error('Erro ao acessar pasta "Plano Diário":', e);
+                    showStatus('Erro ao acessar pasta de diário', false);
+                    return;
+                }
             }
 
             // Se houver imagem, salvar na pasta "Plano Diário"
@@ -918,38 +1070,34 @@
                 try {
                     const fileHandle = await diarioDirHandle.getFileHandle(fileName, { create: true });
                     const writable = await fileHandle.createWritable();
-                    await writable.write(await imageFile.arrayBuffer());
+                    const arrayBuffer = await imageFile.arrayBuffer();
+                    await writable.write(arrayBuffer);
                     await writable.close();
-                    entry.image = fileName;
+                    entry.image = fileName; // armazena o nome do arquivo
                 } catch (e) {
                     console.error('Erro ao salvar a imagem:', e);
+                    showStatus('Erro ao salvar a imagem', false);
                 }
             }
 
             // Salvar o registro no arquivo cultivo.json
+            const fileHandle = await plantDirectoryHandle.getFileHandle("cultivo.json", { create: true });
+            let existing = [];
             try {
-                const fileHandle = await plantDirectoryHandle.getFileHandle("cultivo.json", { create: true });
-                let existing = [];
-                try {
-                    const file = await fileHandle.getFile();
-                    const text = await file.text();
-                    existing = JSON.parse(text) || [];
-                } catch (e) {
-                    // Arquivo não existe ou vazio
-                }
-
-                existing.push(entry);
-
-                const writable = await fileHandle.createWritable();
-                await writable.write(JSON.stringify(existing, null, 2));
-                await writable.close();
-                showStatus('Registro salvo com sucesso!');
-                return true;
+                const file = await fileHandle.getFile();
+                const text = await file.text();
+                existing = JSON.parse(text);
             } catch (e) {
-                console.error('Erro ao salvar registro:', e);
-                showStatus('Erro ao salvar registro', false);
-                return false;
+                // Arquivo não existe, então criamos um novo
+                console.log('Criando novo arquivo cultivo.json');
             }
+
+            existing.push(entry);
+
+            const writable = await fileHandle.createWritable();
+            await writable.write(JSON.stringify(existing, null, 2));
+            await writable.close();
+            showStatus('Registro salvo com sucesso!');
         }
 
         document.getElementById("cultivoForm").addEventListener("submit", async function(e) {
@@ -975,138 +1123,146 @@
             const imageInput = document.getElementById("imagemCultivo");
             const imageFile = imageInput.files[0] || null;
 
-            if (await saveCultivoEntry(entry, imageFile)) {
-                this.reset();
-                document.getElementById('imagePreview').style.display = 'none';
-            }
+            await saveCultivoEntry(entry, imageFile);
+            this.reset();
+            document.getElementById('imagePreview').style.display = 'none';
         });
 
         // ======== HISTÓRICO ======== //
         async function loadPlantHistory() {
-            // Revogar URLs de imagens anteriores
-            historyImageUrls.forEach(url => URL.revokeObjectURL(url));
-            historyImageUrls = [];
-
             if (!plantDirectoryHandle) {
-                return;
+                const granted = await requestDirectoryAccess();
+                if (!granted) return;
             }
 
             const container = document.getElementById("plantHistoryList");
             container.innerHTML = '';
 
+            // Carregar dados de plantas
+            const plantsHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+            const plantsFile = await plantsHandle.getFile();
+            let plants = [];
             try {
-                // Carregar dados de plantas
-                const plantsHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-                const plantsFile = await plantsHandle.getFile();
-                const plantsText = await plantsFile.text();
-                const plants = JSON.parse(plantsText) || [];
-
-                // Carregar histórico
-                const historyHandle = await plantDirectoryHandle.getFileHandle("cultivo.json", { create: true });
-                const historyFile = await historyHandle.getFile();
-                const historyText = await historyFile.text();
-                const history = JSON.parse(historyText) || [];
-
-                // Agrupar por planta
-                const groupedHistory = {};
-                history.forEach(entry => {
-                    const plantIndex = entry.plantaIndex;
-                    if (!groupedHistory[plantIndex]) {
-                        groupedHistory[plantIndex] = [];
-                    }
-                    groupedHistory[plantIndex].push(entry);
-                });
-
-                // Exibir histórico
-                for (const [plantIndex, entries] of Object.entries(groupedHistory)) {
-                    const plant = plants[plantIndex];
-                    if (!plant) continue;
-
-                    const plantHeader = document.createElement("div");
-                    plantHeader.className = "plant-list-item";
-                    plantHeader.innerHTML = `<h3>${plant.name}</h3>`;
-                    container.appendChild(plantHeader);
-
-                    entries.forEach(entry => {
-                        const entryDiv = document.createElement("div");
-                        entryDiv.className = "history-entry";
-                        
-                        let valuesHtml = '';
-                        if (entry.ph) valuesHtml += `
-                            <div class="history-value">
-                                <span>pH</span>
-                                <strong>${entry.ph}</strong>
-                            </div>`;
-                        
-                        if (entry.ec) valuesHtml += `
-                            <div class="history-value">
-                                <span>EC</span>
-                                <strong>${entry.ec} mS/cm</strong>
-                            </div>`;
-                        
-                        if (entry.temp) valuesHtml += `
-                            <div class="history-value">
-                                <span>Temp</span>
-                                <strong>${entry.temp}°C</strong>
-                            </div>`;
-                        
-                        if (entry.rega) valuesHtml += `
-                            <div class="history-value">
-                                <span>Rega</span>
-                                <strong>${entry.rega}</strong>
-                            </div>`;
-                        
-                        entryDiv.innerHTML = `
-                            <div class="history-date">${entry.date}</div>
-                            <div class="history-values">${valuesHtml}</div>
-                            <div>${entry.obs || ''}</div>
-                        `;
-                        
-                        // Adicionar imagem
-                        const imageContainer = document.createElement('div');
-                        imageContainer.className = 'history-image-container';
-                        
-                        if (entry.image) {
-                            const imageLabel = document.createElement('div');
-                            imageLabel.className = 'history-image-label';
-                            imageLabel.textContent = 'Imagem:';
-                            imageContainer.appendChild(imageLabel);
-                            
-                            const img = document.createElement('img');
-                            img.className = 'history-image';
-                            img.alt = 'Imagem do cultivo';
-                            
-                            // Carregar a imagem
-                            loadImageForHistory(img, entry.image);
-                            
-                            // Clique para abrir em tela cheia
-                            img.onclick = () => viewFullImage(entry.image);
-                            
-                            imageContainer.appendChild(img);
-                        } else {
-                            const noImage = document.createElement('div');
-                            noImage.className = 'no-image';
-                            noImage.textContent = 'Nenhuma imagem registrada';
-                            imageContainer.appendChild(noImage);
-                        }
-                        
-                        entryDiv.appendChild(imageContainer);
-                        container.appendChild(entryDiv);
-                    });
-                }
-
-                if (container.innerHTML === '') {
-                    container.innerHTML = '<div class="plant-list-item">Nenhum registro encontrado</div>';
-                }
+                const text = await plantsFile.text();
+                plants = JSON.parse(text);
             } catch (e) {
-                console.error('Erro ao carregar histórico:', e);
-                container.innerHTML = '<div class="plant-list-item">Erro ao carregar histórico</div>';
+                console.log('Arquivo plantas.json vazio ou não encontrado');
+                plants = [];
+            }
+
+            // Carregar histórico
+            const historyHandle = await plantDirectoryHandle.getFileHandle("cultivo.json", { create: true });
+            const historyFile = await historyHandle.getFile();
+            let history = [];
+            try {
+                const historyText = await historyFile.text();
+                history = JSON.parse(historyText);
+            } catch (e) {
+                console.log('Arquivo cultivo.json vazio ou não encontrado');
+                history = [];
+            }
+
+            // Agrupar por planta
+            const groupedHistory = {};
+            history.forEach(entry => {
+                const plantIndex = entry.plantaIndex;
+                if (!groupedHistory[plantIndex]) {
+                    groupedHistory[plantIndex] = [];
+                }
+                groupedHistory[plantIndex].push(entry);
+            });
+
+            // Exibir histórico
+            for (const [plantIndex, entries] of Object.entries(groupedHistory)) {
+                const plant = plants[plantIndex];
+                if (!plant) continue;
+
+                const plantHeader = document.createElement("div");
+                plantHeader.className = "plant-list-item";
+                plantHeader.innerHTML = `<h3><i class="fas fa-leaf"></i> ${plant.name}</h3>`;
+                container.appendChild(plantHeader);
+
+                entries.forEach(entry => {
+                    const entryDiv = document.createElement("div");
+                    entryDiv.className = "history-entry";
+                    
+                    let valuesHtml = '';
+                    if (entry.ph) valuesHtml += `
+                        <div class="history-value">
+                            <span>pH</span>
+                            <strong>${entry.ph}</strong>
+                        </div>`;
+                    
+                    if (entry.ec) valuesHtml += `
+                        <div class="history-value">
+                            <span>EC</span>
+                            <strong>${entry.ec} mS/cm</strong>
+                        </div>`;
+                    
+                    if (entry.temp) valuesHtml += `
+                        <div class="history-value">
+                            <span>Temp</span>
+                            <strong>${entry.temp}°C</strong>
+                        </div>`;
+                    
+                    if (entry.rega) valuesHtml += `
+                        <div class="history-value">
+                            <span>Rega</span>
+                            <strong>${entry.rega}</strong>
+                        </div>`;
+                    
+                    entryDiv.innerHTML = `
+                        <div class="history-date"><i class="fas fa-calendar"></i> ${entry.date}</div>
+                        <div class="history-values">${valuesHtml}</div>
+                        <div><i class="fas fa-sticky-note"></i> ${entry.obs || 'Sem observações'}</div>
+                    `;
+                    
+                    // Adicionar imagem diretamente no histórico
+                    const imageContainer = document.createElement('div');
+                    imageContainer.className = 'history-image-container';
+                    
+                    if (entry.image) {
+                        const imageLabel = document.createElement('div');
+                        imageLabel.className = 'history-image-label';
+                        imageLabel.innerHTML = '<i class="fas fa-image"></i> Imagem:';
+                        imageContainer.appendChild(imageLabel);
+                        
+                        const img = document.createElement('img');
+                        img.className = 'history-image';
+                        img.alt = 'Imagem do cultivo';
+                        
+                        // Carregar a imagem e exibir em miniatura
+                        loadImageForHistory(img, entry.image);
+                        
+                        // Duplo clique para abrir em tela cheia
+                        img.onclick = () => viewFullImage(entry.image);
+                        
+                        imageContainer.appendChild(img);
+                    } else {
+                        const noImage = document.createElement('div');
+                        noImage.className = 'no-image';
+                        noImage.innerHTML = '<i class="fas fa-ban"></i> Nenhuma imagem registrada';
+                        imageContainer.appendChild(noImage);
+                    }
+                    
+                    entryDiv.appendChild(imageContainer);
+                    container.appendChild(entryDiv);
+                });
+            }
+
+            if (container.innerHTML === '') {
+                container.innerHTML = '<div class="plant-list-item">Nenhum registro encontrado</div>';
             }
         }
 
         // Carregar imagem para o histórico
         async function loadImageForHistory(imgElement, imageName) {
             try {
+                // Garantir que temos acesso à pasta "Plano Diário"
+                if (!diarioDirHandle) {
+                    diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário');
+                }
+                
                 const fileHandle = await diarioDirHandle.getFileHandle(imageName);
                 const file = await fileHandle.getFile();
                 const imageUrl = URL.createObjectURL(file);
@@ -1123,6 +1279,11 @@
         // Visualizar imagem em tela cheia
         async function viewFullImage(imageName) {
             try {
+                // Garantir que temos acesso à pasta "Plano Diário"
+                if (!diarioDirHandle) {
+                    diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário');
+                }
+                
                 const fileHandle = await diarioDirHandle.getFileHandle(imageName);
                 const file = await fileHandle.getFile();
                 const imageUrl = URL.createObjectURL(file);
@@ -1130,15 +1291,18 @@
                 document.getElementById('imageModal').style.display = 'flex';
             } catch (e) {
                 console.error('Erro ao carregar a imagem:', e);
-                showStatus('Não foi possível carregar a imagem', false);
+                showStatus('Não foi possível carregar a imagem: ' + e.message, false);
             }
         }
         
-        // Fechar modal ao pressionar ESC ou tocar fora
+        // Fechar modal ao pressionar ESC
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeImageModal();
+            if (e.key === 'Escape') {
+                closeImageModal();
+            }
         });
         
+        // Fechar modal ao tocar fora da imagem (mobile)
         document.getElementById('imageModal').addEventListener('click', (e) => {
             if (e.target === document.getElementById('imageModal')) {
                 closeImageModal();
