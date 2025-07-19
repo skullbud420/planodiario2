@@ -217,6 +217,11 @@
             gap: 10px;
             justify-content: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .section-nav .btn {
+            min-width: 120px;
         }
         
         .image-preview {
@@ -335,16 +340,30 @@
             color: #777;
             margin-top: 10px;
         }
+        
+        .mobile-warning {
+            background: rgba(231, 76, 60, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e74c3c;
+            display: none;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="mobile-warning" id="mobileWarning">
+            <h3>Atenção: Funcionalidade Limitada</h3>
+            <p>Para melhor experiência, use o Chrome para Android e conceda permissões de armazenamento.</p>
+        </div>
+        
         <header>
             <h1><i class="fas fa-book"></i> Diário de Cultivo</h1>
             <p>Registre e acompanhe o desenvolvimento das suas plantas</p>
         </header>
         
-        <div id="permissionRequest" class="permission-request">
+        <div id="permissionRequest" class="permission-request" style="display: none;">
             <h3>Permissão Necessária</h3>
             <p>Para salvar seus dados localmente, precisamos de permissão para acessar o sistema de arquivos.</p>
             <button class="btn btn-primary" id="requestPermissionBtn">
@@ -362,7 +381,7 @@
                 <button class="btn btn-secondary" onclick="showSection('manage')">Gerenciar Plantas</button>
             </div>
             
-            <div id="statusBar" class="status-bar"></div>
+            <div id="statusBar" class="status-bar success" style="display: none;"></div>
             
             <div id="sections">
                 <div id="register">
@@ -378,23 +397,23 @@
                             <input type="date" id="dataCultivo" required>
                         </div>
 
-                        <div style="display: flex; gap: 10px;">
-                            <div class="form-group" style="flex:1;">
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <div class="form-group" style="flex:1; min-width: 140px;">
                                 <label>pH</label>
                                 <input type="number" id="phCultivo" placeholder="Ex: 6.2" step="0.1">
                             </div>
-                            <div class="form-group" style="flex:1;">
+                            <div class="form-group" style="flex:1; min-width: 140px;">
                                 <label>EC (mS/cm)</label>
                                 <input type="number" id="ecCultivo" placeholder="Ex: 1.8" step="0.1">
                             </div>
                         </div>
 
-                        <div style="display: flex; gap: 10px;">
-                            <div class="form-group" style="flex:1;">
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <div class="form-group" style="flex:1; min-width: 140px;">
                                 <label>Temperatura (°C)</label>
                                 <input type="number" id="tempCultivo" placeholder="Ex: 24.5" step="0.1">
                             </div>
-                            <div class="form-group" style="flex:1;">
+                            <div class="form-group" style="flex:1; min-width: 140px;">
                                 <label>Rega</label>
                                 <select id="regaCultivo">
                                     <option>Normal</option>
@@ -440,17 +459,17 @@
 
                         <div class="form-group">
                             <label>Data da Germinação</label>
-                            <input type="date" id="germinationDate" value="2025-07-15">
+                            <input type="date" id="germinationDate">
                         </div>
 
                         <div class="form-group">
                             <label>Tipo de Planta</label>
-                            <div style="display:flex; gap:10px;">
-                                <div class="plant-btn auto" id="typeAuto" onclick="setPlantTypeUI('auto')" style="flex:1; justify-content:center;">
+                            <div style="display:flex; gap:10px; flex-wrap: wrap;">
+                                <div class="plant-btn auto" id="typeAuto" onclick="setPlantTypeUI('auto')" style="flex:1; min-width: 140px; justify-content:center;">
                                     <i class="fas fa-bolt"></i>
                                     <span>Automática</span>
                                 </div>
-                                <div class="plant-btn photo" id="typePhoto" onclick="setPlantTypeUI('photo')" style="flex:1; justify-content:center;">
+                                <div class="plant-btn photo" id="typePhoto" onclick="setPlantTypeUI('photo')" style="flex:1; min-width: 140px; justify-content:center;">
                                     <i class="fas fa-sun"></i>
                                     <span>Fotoperíodo</span>
                                 </div>
@@ -516,11 +535,25 @@
         function closeImageModal() {
             document.getElementById('imageModal').style.display = 'none';
             // Revogar URL para liberar memória
-            URL.revokeObjectURL(document.getElementById('modalImage').src);
+            if (document.getElementById('modalImage').src) {
+                URL.revokeObjectURL(document.getElementById('modalImage').src);
+            }
             document.getElementById('modalImage').src = '';
         }
 
         // ======== SISTEMA DE PERMISSÃO DE ARQUIVOS ======== //
+        // Verificar suporte do navegador
+        function checkBrowserSupport() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const isChrome = /Chrome/.test(navigator.userAgent);
+            
+            if (isMobile && !isChrome) {
+                document.getElementById('mobileWarning').style.display = 'block';
+            }
+            
+            return ('showDirectoryPicker' in window);
+        }
+
         // Função para abrir o banco de dados
         function openDB() {
             return new Promise((resolve, reject) => {
@@ -572,33 +605,68 @@
                 });
             } catch (e) {
                 console.error('Erro ao recuperar o handle:', e);
-                showStatus('Erro ao recuperar permissões', false);
                 return null;
             }
         }
 
+        // Verificar se temos permissão válida
+        async function verifyPermission(handle) {
+            const options = { mode: 'readwrite' };
+            if (await handle.queryPermission(options) === 'granted') {
+                return true;
+            }
+            if (await handle.requestPermission(options) === 'granted') {
+                return true;
+            }
+            return false;
+        }
+
         // Função de inicialização para recuperar o handle
         async function init() {
+            if (!checkBrowserSupport()) {
+                document.getElementById('permissionRequest').innerHTML = `
+                    <h3>Navegador não suportado</h3>
+                    <p>Seu navegador não suporta o acesso ao sistema de arquivos. Por favor, utilize o Chrome para Android.</p>
+                `;
+                document.getElementById('permissionRequest').style.display = 'block';
+                return;
+            }
+
             try {
                 const savedHandle = await getSavedDirectoryHandle();
                 if (savedHandle) {
-                    plantDirectoryHandle = savedHandle;
-                    showStatus('Permissão recuperada com sucesso!');
-                    console.log("Permissão recuperada do armazenamento local");
-                    
-                    // Criar ou acessar pasta "Plano Diário"
-                    try {
-                        diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
-                        console.log('Pasta "Plano Diário" criada/acessada com sucesso');
-                        document.getElementById('permissionRequest').style.display = 'none';
-                        document.getElementById('appContent').style.display = 'block';
-                    } catch (e) {
-                        console.error('Erro ao acessar pasta "Plano Diário":', e);
-                        showStatus('Erro ao acessar pasta de diário', false);
+                    // Verificar se a permissão ainda é válida
+                    if (await verifyPermission(savedHandle)) {
+                        plantDirectoryHandle = savedHandle;
+                        showStatus('Permissão recuperada com sucesso!');
+                        
+                        // Criar ou acessar pasta "Plano Diário"
+                        try {
+                            diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
+                            console.log('Pasta "Plano Diário" acessada com sucesso');
+                            document.getElementById('permissionRequest').style.display = 'none';
+                            document.getElementById('appContent').style.display = 'block';
+                            
+                            // Preencher dados iniciais
+                            const today = new Date().toISOString().split('T')[0];
+                            document.getElementById('dataCultivo').value = today;
+                            document.getElementById('germinationDate').value = today;
+                            
+                            // Carregar dados
+                            await preencherSelectPlantas();
+                            await updatePlantListUI();
+                        } catch (e) {
+                            console.error('Erro ao acessar pasta "Plano Diário":', e);
+                            showStatus('Erro ao acessar pasta de diário', false);
+                            document.getElementById('permissionRequest').style.display = 'block';
+                        }
+                    } else {
+                        // Permissão expirada - solicitar novamente
+                        document.getElementById('permissionRequest').style.display = 'block';
                     }
                 } else {
+                    // Sem handle salvo - solicitar permissão
                     document.getElementById('permissionRequest').style.display = 'block';
-                    document.getElementById('appContent').style.display = 'none';
                 }
             } catch (e) {
                 console.error('Erro na inicialização:', e);
@@ -609,31 +677,48 @@
         // Solicitar permissão
         async function requestDirectoryAccess() {
             try {
-                const handle = await window.showDirectoryPicker();
-                await saveDirectoryHandle(handle);
-                plantDirectoryHandle = handle;
-                showStatus('Permissão concedida com sucesso!');
+                const handle = await window.showDirectoryPicker({ 
+                    mode: 'readwrite',
+                    id: 'plantDiaryDirectory'
+                });
                 
-                // Criar ou acessar pasta "Plano Diário"
-                try {
-                    diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
-                    console.log('Pasta "Plano Diário" criada/acessada com sucesso');
-                    document.getElementById('permissionRequest').style.display = 'none';
-                    document.getElementById('appContent').style.display = 'block';
-                } catch (e) {
-                    console.error('Erro ao acessar pasta "Plano Diário":', e);
-                    showStatus('Erro ao criar pasta de diário', false);
+                // Verificar e garantir permissão
+                if (await verifyPermission(handle)) {
+                    await saveDirectoryHandle(handle);
+                    plantDirectoryHandle = handle;
+                    showStatus('Permissão concedida com sucesso!');
+                    
+                    // Criar ou acessar pasta "Plano Diário"
+                    try {
+                        diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
+                        console.log('Pasta "Plano Diário" criada/acessada com sucesso');
+                        document.getElementById('permissionRequest').style.display = 'none';
+                        document.getElementById('appContent').style.display = 'block';
+                        
+                        // Preencher dados iniciais
+                        const today = new Date().toISOString().split('T')[0];
+                        document.getElementById('dataCultivo').value = today;
+                        document.getElementById('germinationDate').value = today;
+                        
+                        // Carregar dados
+                        await preencherSelectPlantas();
+                        await updatePlantListUI();
+                    } catch (e) {
+                        console.error('Erro ao acessar pasta "Plano Diário":', e);
+                        showStatus('Erro ao criar pasta de diário', false);
+                    }
+                    return true;
+                } else {
+                    showStatus("Permissão não concedida", false);
+                    return false;
                 }
-                
-                // Preencher o select de plantas ao carregar
-                await preencherSelectPlantas();
-                // Atualizar a lista de plantas na seção de gerenciamento
-                await updatePlantListUI();
-                
-                return true;
             } catch (e) {
                 console.error('Erro ao solicitar permissão:', e);
-                showStatus("Permissão negada para acessar o sistema de arquivos.", false);
+                if (e.name === 'AbortError') {
+                    showStatus("Seleção de pasta cancelada.", false);
+                } else {
+                    showStatus("Permissão negada para acessar o sistema de arquivos.", false);
+                }
                 return false;
             }
         }
@@ -675,10 +760,9 @@
                 existing = JSON.parse(text);
             } catch (e) {
                 // Se o arquivo não existe, começamos com um array vazio
-                console.log('Criando novo arquivo plantas.json');
             }
 
-            if (indexToEdit !== null) {
+            if (indexToEdit !== null && indexToEdit < existing.length) {
                 existing[indexToEdit] = plantData;
             } else {
                 existing.push(plantData);
@@ -708,77 +792,90 @@
 
         async function updatePlantListUI() {
             if (!plantDirectoryHandle) {
-                const granted = await requestDirectoryAccess();
-                if (!granted) return;
+                return;
             }
 
-            const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-            const file = await fileHandle.getFile();
-            let plants = [];
             try {
+                const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+                const file = await fileHandle.getFile();
                 const text = await file.text();
-                plants = JSON.parse(text);
+                const plants = JSON.parse(text) || [];
+
+                const container = document.getElementById("plantListContent");
+                container.innerHTML = '';
+
+                const today = new Date();
+                plants.forEach((p, i) => {
+                    const germ = p.germinationDate ? new Date(p.germinationDate) : null;
+                    const ageDays = germ ? Math.floor((today - germ) / (1000 * 60 * 60 * 24)) : '-';
+
+                    const div = document.createElement("div");
+                    div.className = "plant-list-item";
+                    div.innerHTML = `
+                        <h3>${p.name}</h3>
+                        <p>Tipo: ${p.type === 'auto' ? 'Automática' : 'Fotoperíodo'}</p>
+                        <p>Germinação: ${p.germinationDate || '-'}</p>
+                        <p>Idade: ${ageDays === '-' ? '-' : ageDays + ' dias'}</p>
+                        <div class="plant-actions">
+                            <button class="btn btn-secondary" onclick="editPlant(${i})">✏️ Editar</button>
+                            <button class="btn btn-primary" onclick="deletePlant(${i})">🗑️ Excluir</button>
+                        </div>
+                    `;
+
+                    container.appendChild(div);
+                });
             } catch (err) {
-                console.error("Erro ao ler plantas.json:", err);
-                plants = [];
+                console.error("Erro ao ler plantas:", err);
+                showStatus("Erro ao carregar plantas", false);
             }
-
-            const container = document.getElementById("plantListContent");
-            container.innerHTML = '';
-
-            const today = new Date();
-            plants.forEach((p, i) => {
-                const germ = p.germinationDate ? new Date(p.germinationDate) : null;
-                const ageDays = germ ? Math.floor((today - germ) / (1000 * 60 * 60 * 24)) : '-';
-
-                const div = document.createElement("div");
-                div.className = "plant-list-item";
-                div.innerHTML = `
-                    <h3>${p.name}</h3>
-                    <p>Tipo: ${p.type === 'auto' ? 'Automática' : 'Fotoperíodo'}</p>
-                    <p>Germinação: ${p.germinationDate || '-'}</p>
-                    <p>Idade: ${ageDays === '-' ? '-' : ageDays + ' dias'}</p>
-                    <div class="plant-actions">
-                        <button class="btn btn-secondary" onclick="editPlant(${i})">✏️ Editar</button>
-                        <button class="btn btn-primary" onclick="deletePlant(${i})">🗑️ Excluir</button>
-                    </div>
-                `;
-
-                container.appendChild(div);
-            });
         }
 
         async function deletePlant(index) {
             if (!confirm("Tem certeza que deseja excluir esta planta?")) return;
-            const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-            const file = await fileHandle.getFile();
-            const text = await file.text();
-            const data = JSON.parse(text);
-            data.splice(index, 1);
-            const writable = await fileHandle.createWritable();
-            await writable.write(JSON.stringify(data, null, 2));
-            await writable.close();
-            showStatus("Planta excluída com sucesso.");
-            updatePlantListUI();
+            
+            try {
+                const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+                const file = await fileHandle.getFile();
+                const text = await file.text();
+                const data = JSON.parse(text);
+                
+                if (index >= 0 && index < data.length) {
+                    data.splice(index, 1);
+                    const writable = await fileHandle.createWritable();
+                    await writable.write(JSON.stringify(data, null, 2));
+                    await writable.close();
+                    showStatus("Planta excluída com sucesso.");
+                    updatePlantListUI();
+                }
+            } catch (e) {
+                console.error("Erro ao excluir planta:", e);
+                showStatus("Erro ao excluir planta", false);
+            }
         }
 
         async function editPlant(index) {
             if (!plantDirectoryHandle) {
-                const granted = await requestDirectoryAccess();
-                if (!granted) return;
+                return;
             }
-            const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-            const file = await fileHandle.getFile();
-            const text = await file.text();
-            const data = JSON.parse(text);
-            const plant = data[index];
-
-            editingIndex = index;
-
-            document.getElementById("plantName").value = plant.name;
-            document.getElementById("germinationDate").value = plant.germinationDate;
-            setPlantTypeUI(plant.type);
-            showSection('manage');
+            
+            try {
+                const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+                const file = await fileHandle.getFile();
+                const text = await file.text();
+                const data = JSON.parse(text);
+                
+                if (index >= 0 && index < data.length) {
+                    const plant = data[index];
+                    editingIndex = index;
+                    document.getElementById("plantName").value = plant.name;
+                    document.getElementById("germinationDate").value = plant.germinationDate;
+                    setPlantTypeUI(plant.type);
+                    showSection('manage');
+                }
+            } catch (e) {
+                console.error("Erro ao editar planta:", e);
+                showStatus("Erro ao carregar dados da planta", false);
+            }
         }
 
         async function preencherSelectPlantas() {
@@ -786,46 +883,31 @@
             if (!select) return;
 
             if (!plantDirectoryHandle) {
-                const granted = await requestDirectoryAccess();
-                if (!granted) return;
+                return;
             }
 
-            const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-            const file = await fileHandle.getFile();
-            let plants = [];
             try {
+                const fileHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+                const file = await fileHandle.getFile();
                 const text = await file.text();
-                plants = JSON.parse(text);
-            } catch (e) {
-                console.log('Arquivo plantas.json vazio ou não encontrado');
-                plants = [];
-            }
+                const plants = JSON.parse(text) || [];
 
-            select.innerHTML = '<option value="">🌱 Selecione uma planta</option>';
-            plants.forEach((p, i) => {
-                const opt = document.createElement("option");
-                opt.value = i;
-                opt.textContent = p.name;
-                select.appendChild(opt);
-            });
+                select.innerHTML = '<option value="">🌱 Selecione uma planta</option>';
+                plants.forEach((p, i) => {
+                    const opt = document.createElement("option");
+                    opt.value = i;
+                    opt.textContent = p.name;
+                    select.appendChild(opt);
+                });
+            } catch (e) {
+                console.error("Erro ao carregar plantas:", e);
+            }
         }
 
         // ======== REGISTRO DE CULTIVO ======== //
         async function saveCultivoEntry(entry, imageFile) {
-            if (!plantDirectoryHandle) {
-                const granted = await requestDirectoryAccess();
-                if (!granted) return;
-            }
-
-            // Garantir que temos acesso à pasta "Plano Diário"
-            if (!diarioDirHandle) {
-                try {
-                    diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário', { create: true });
-                } catch (e) {
-                    console.error('Erro ao acessar pasta "Plano Diário":', e);
-                    showStatus('Erro ao acessar pasta de diário', false);
-                    return;
-                }
+            if (!plantDirectoryHandle || !diarioDirHandle) {
+                return;
             }
 
             // Se houver imagem, salvar na pasta "Plano Diário"
@@ -836,34 +918,38 @@
                 try {
                     const fileHandle = await diarioDirHandle.getFileHandle(fileName, { create: true });
                     const writable = await fileHandle.createWritable();
-                    await writable.write(imageFile);
+                    await writable.write(await imageFile.arrayBuffer());
                     await writable.close();
-                    entry.image = fileName; // armazena o nome do arquivo
-                    showStatus('Imagem salva na pasta "Plano Diário"');
+                    entry.image = fileName;
                 } catch (e) {
                     console.error('Erro ao salvar a imagem:', e);
-                    showStatus('Erro ao salvar a imagem', false);
                 }
             }
 
             // Salvar o registro no arquivo cultivo.json
-            const fileHandle = await plantDirectoryHandle.getFileHandle("cultivo.json", { create: true });
-            let existing = [];
             try {
-                const file = await fileHandle.getFile();
-                const text = await file.text();
-                existing = JSON.parse(text);
+                const fileHandle = await plantDirectoryHandle.getFileHandle("cultivo.json", { create: true });
+                let existing = [];
+                try {
+                    const file = await fileHandle.getFile();
+                    const text = await file.text();
+                    existing = JSON.parse(text) || [];
+                } catch (e) {
+                    // Arquivo não existe ou vazio
+                }
+
+                existing.push(entry);
+
+                const writable = await fileHandle.createWritable();
+                await writable.write(JSON.stringify(existing, null, 2));
+                await writable.close();
+                showStatus('Registro salvo com sucesso!');
+                return true;
             } catch (e) {
-                // Arquivo não existe, então criamos um novo
-                console.log('Criando novo arquivo cultivo.json');
+                console.error('Erro ao salvar registro:', e);
+                showStatus('Erro ao salvar registro', false);
+                return false;
             }
-
-            existing.push(entry);
-
-            const writable = await fileHandle.createWritable();
-            await writable.write(JSON.stringify(existing, null, 2));
-            await writable.close();
-            showStatus('Registro salvo com sucesso!');
         }
 
         document.getElementById("cultivoForm").addEventListener("submit", async function(e) {
@@ -889,146 +975,138 @@
             const imageInput = document.getElementById("imagemCultivo");
             const imageFile = imageInput.files[0] || null;
 
-            await saveCultivoEntry(entry, imageFile);
-            this.reset();
-            document.getElementById('imagePreview').style.display = 'none';
+            if (await saveCultivoEntry(entry, imageFile)) {
+                this.reset();
+                document.getElementById('imagePreview').style.display = 'none';
+            }
         });
 
         // ======== HISTÓRICO ======== //
         async function loadPlantHistory() {
+            // Revogar URLs de imagens anteriores
+            historyImageUrls.forEach(url => URL.revokeObjectURL(url));
+            historyImageUrls = [];
+
             if (!plantDirectoryHandle) {
-                const granted = await requestDirectoryAccess();
-                if (!granted) return;
+                return;
             }
 
             const container = document.getElementById("plantHistoryList");
             container.innerHTML = '';
 
-            // Carregar dados de plantas
-            const plantsHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
-            const plantsFile = await plantsHandle.getFile();
-            let plants = [];
             try {
-                const text = await plantsFile.text();
-                plants = JSON.parse(text);
-            } catch (e) {
-                console.log('Arquivo plantas.json vazio ou não encontrado');
-                plants = [];
-            }
+                // Carregar dados de plantas
+                const plantsHandle = await plantDirectoryHandle.getFileHandle("plantas.json", { create: true });
+                const plantsFile = await plantsHandle.getFile();
+                const plantsText = await plantsFile.text();
+                const plants = JSON.parse(plantsText) || [];
 
-            // Carregar histórico
-            const historyHandle = await plantDirectoryHandle.getFileHandle("cultivo.json", { create: true });
-            const historyFile = await historyHandle.getFile();
-            let history = [];
-            try {
+                // Carregar histórico
+                const historyHandle = await plantDirectoryHandle.getFileHandle("cultivo.json", { create: true });
+                const historyFile = await historyHandle.getFile();
                 const historyText = await historyFile.text();
-                history = JSON.parse(historyText);
-            } catch (e) {
-                console.log('Arquivo cultivo.json vazio ou não encontrado');
-                history = [];
-            }
+                const history = JSON.parse(historyText) || [];
 
-            // Agrupar por planta
-            const groupedHistory = {};
-            history.forEach(entry => {
-                const plantIndex = entry.plantaIndex;
-                if (!groupedHistory[plantIndex]) {
-                    groupedHistory[plantIndex] = [];
-                }
-                groupedHistory[plantIndex].push(entry);
-            });
-
-            // Exibir histórico
-            for (const [plantIndex, entries] of Object.entries(groupedHistory)) {
-                const plant = plants[plantIndex];
-                if (!plant) continue;
-
-                const plantHeader = document.createElement("div");
-                plantHeader.className = "plant-list-item";
-                plantHeader.innerHTML = `<h3>${plant.name}</h3>`;
-                container.appendChild(plantHeader);
-
-                entries.forEach(entry => {
-                    const entryDiv = document.createElement("div");
-                    entryDiv.className = "history-entry";
-                    
-                    let valuesHtml = '';
-                    if (entry.ph) valuesHtml += `
-                        <div class="history-value">
-                            <span>pH</span>
-                            <strong>${entry.ph}</strong>
-                        </div>`;
-                    
-                    if (entry.ec) valuesHtml += `
-                        <div class="history-value">
-                            <span>EC</span>
-                            <strong>${entry.ec} mS/cm</strong>
-                        </div>`;
-                    
-                    if (entry.temp) valuesHtml += `
-                        <div class="history-value">
-                            <span>Temp</span>
-                            <strong>${entry.temp}°C</strong>
-                        </div>`;
-                    
-                    if (entry.rega) valuesHtml += `
-                        <div class="history-value">
-                            <span>Rega</span>
-                            <strong>${entry.rega}</strong>
-                        </div>`;
-                    
-                    entryDiv.innerHTML = `
-                        <div class="history-date">${entry.date}</div>
-                        <div class="history-values">${valuesHtml}</div>
-                        <div>${entry.obs || ''}</div>
-                    `;
-                    
-                    // Adicionar imagem diretamente no histórico
-                    const imageContainer = document.createElement('div');
-                    imageContainer.className = 'history-image-container';
-                    
-                    if (entry.image) {
-                        const imageLabel = document.createElement('div');
-                        imageLabel.className = 'history-image-label';
-                        imageLabel.textContent = 'Imagem:';
-                        imageContainer.appendChild(imageLabel);
-                        
-                        const img = document.createElement('img');
-                        img.className = 'history-image';
-                        img.alt = 'Imagem do cultivo';
-                        
-                        // Carregar a imagem e exibir em miniatura
-                        loadImageForHistory(img, entry.image);
-                        
-                        // Duplo clique para abrir em tela cheia
-                        img.onclick = () => viewFullImage(entry.image);
-                        
-                        imageContainer.appendChild(img);
-                    } else {
-                        const noImage = document.createElement('div');
-                        noImage.className = 'no-image';
-                        noImage.textContent = 'Nenhuma imagem registrada';
-                        imageContainer.appendChild(noImage);
+                // Agrupar por planta
+                const groupedHistory = {};
+                history.forEach(entry => {
+                    const plantIndex = entry.plantaIndex;
+                    if (!groupedHistory[plantIndex]) {
+                        groupedHistory[plantIndex] = [];
                     }
-                    
-                    entryDiv.appendChild(imageContainer);
-                    container.appendChild(entryDiv);
+                    groupedHistory[plantIndex].push(entry);
                 });
-            }
 
-            if (container.innerHTML === '') {
-                container.innerHTML = '<div class="plant-list-item">Nenhum registro encontrado</div>';
+                // Exibir histórico
+                for (const [plantIndex, entries] of Object.entries(groupedHistory)) {
+                    const plant = plants[plantIndex];
+                    if (!plant) continue;
+
+                    const plantHeader = document.createElement("div");
+                    plantHeader.className = "plant-list-item";
+                    plantHeader.innerHTML = `<h3>${plant.name}</h3>`;
+                    container.appendChild(plantHeader);
+
+                    entries.forEach(entry => {
+                        const entryDiv = document.createElement("div");
+                        entryDiv.className = "history-entry";
+                        
+                        let valuesHtml = '';
+                        if (entry.ph) valuesHtml += `
+                            <div class="history-value">
+                                <span>pH</span>
+                                <strong>${entry.ph}</strong>
+                            </div>`;
+                        
+                        if (entry.ec) valuesHtml += `
+                            <div class="history-value">
+                                <span>EC</span>
+                                <strong>${entry.ec} mS/cm</strong>
+                            </div>`;
+                        
+                        if (entry.temp) valuesHtml += `
+                            <div class="history-value">
+                                <span>Temp</span>
+                                <strong>${entry.temp}°C</strong>
+                            </div>`;
+                        
+                        if (entry.rega) valuesHtml += `
+                            <div class="history-value">
+                                <span>Rega</span>
+                                <strong>${entry.rega}</strong>
+                            </div>`;
+                        
+                        entryDiv.innerHTML = `
+                            <div class="history-date">${entry.date}</div>
+                            <div class="history-values">${valuesHtml}</div>
+                            <div>${entry.obs || ''}</div>
+                        `;
+                        
+                        // Adicionar imagem
+                        const imageContainer = document.createElement('div');
+                        imageContainer.className = 'history-image-container';
+                        
+                        if (entry.image) {
+                            const imageLabel = document.createElement('div');
+                            imageLabel.className = 'history-image-label';
+                            imageLabel.textContent = 'Imagem:';
+                            imageContainer.appendChild(imageLabel);
+                            
+                            const img = document.createElement('img');
+                            img.className = 'history-image';
+                            img.alt = 'Imagem do cultivo';
+                            
+                            // Carregar a imagem
+                            loadImageForHistory(img, entry.image);
+                            
+                            // Clique para abrir em tela cheia
+                            img.onclick = () => viewFullImage(entry.image);
+                            
+                            imageContainer.appendChild(img);
+                        } else {
+                            const noImage = document.createElement('div');
+                            noImage.className = 'no-image';
+                            noImage.textContent = 'Nenhuma imagem registrada';
+                            imageContainer.appendChild(noImage);
+                        }
+                        
+                        entryDiv.appendChild(imageContainer);
+                        container.appendChild(entryDiv);
+                    });
+                }
+
+                if (container.innerHTML === '') {
+                    container.innerHTML = '<div class="plant-list-item">Nenhum registro encontrado</div>';
+                }
+            } catch (e) {
+                console.error('Erro ao carregar histórico:', e);
+                container.innerHTML = '<div class="plant-list-item">Erro ao carregar histórico</div>';
             }
         }
 
         // Carregar imagem para o histórico
         async function loadImageForHistory(imgElement, imageName) {
             try {
-                // Garantir que temos acesso à pasta "Plano Diário"
-                if (!diarioDirHandle) {
-                    diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário');
-                }
-                
                 const fileHandle = await diarioDirHandle.getFileHandle(imageName);
                 const file = await fileHandle.getFile();
                 const imageUrl = URL.createObjectURL(file);
@@ -1045,11 +1123,6 @@
         // Visualizar imagem em tela cheia
         async function viewFullImage(imageName) {
             try {
-                // Garantir que temos acesso à pasta "Plano Diário"
-                if (!diarioDirHandle) {
-                    diarioDirHandle = await plantDirectoryHandle.getDirectoryHandle('Plano Diário');
-                }
-                
                 const fileHandle = await diarioDirHandle.getFileHandle(imageName);
                 const file = await fileHandle.getFile();
                 const imageUrl = URL.createObjectURL(file);
@@ -1057,13 +1130,17 @@
                 document.getElementById('imageModal').style.display = 'flex';
             } catch (e) {
                 console.error('Erro ao carregar a imagem:', e);
-                showStatus('Não foi possível carregar a imagem: ' + e.message, false);
+                showStatus('Não foi possível carregar a imagem', false);
             }
         }
         
-        // Fechar modal ao pressionar ESC
+        // Fechar modal ao pressionar ESC ou tocar fora
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
+            if (e.key === 'Escape') closeImageModal();
+        });
+        
+        document.getElementById('imageModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('imageModal')) {
                 closeImageModal();
             }
         });
