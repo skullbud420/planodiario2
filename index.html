@@ -575,7 +575,7 @@
 
                         <div class="form-group">
                             <label><i class="fas fa-camera"></i> Imagem (opcional)</label>
-                            <input type="file" id="imagemCultivo" accept="image/*" capture="environment" onchange="previewImage(event)">
+                            <input type="file" id="imagemCultivo" accept="image/*" onchange="previewImage(event)">
                             <img id="imagePreview" class="image-preview" alt="Pré-visualização">
                         </div>
 
@@ -1307,6 +1307,11 @@
             if (e.target === document.getElementById('imageModal')) {
                 closeImageModal();
             }
+        });
+        
+        // Liberar memória das imagens ao fechar o aplicativo
+        window.addEventListener('beforeunload', () => {
+            historyImageUrls.forEach(url => URL.revokeObjectURL(url));
         });
     </script>
 </body>
